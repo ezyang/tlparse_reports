@@ -1,0 +1,19 @@
+
+TREE_GUARD_MANAGER:
++- RootGuardManager
+| +- DEFAULT_DEVICE: utils_device.CURRENT_DEVICE == None                           # _dynamo/output_graph.py:460 in init_ambient_guards
+| +- GLOBAL_STATE: ___check_global_state()
+| +- GuardManager: source=L['___stack0'], accessed_by=DictGetItemGuardAccessor(___stack0)
+| | +- TYPE_MATCH: ___check_type_id(L['___stack0'], 7625984)                   
+| | +- LENGTH_CHECK: len(L['___stack0']) == 2                                    
+| | +- GuardManager: source=L['___stack0'][0], accessed_by=TupleGetItemGuardAccessor(0)
+| | | +- TENSOR_MATCH: check_tensor(L['___stack0'][0], Tensor, DispatchKeySet(CPU, BackendSelect, ADInplaceOrView, AutogradCPU, AutocastCPU), torch.float32, device=None, requires_grad=False, size=[1, 832, 12, 64], stride=[638976, 64, 53248, 1])
+| | | +- NO_HASATTR: hasattr(L['___stack0'][0], '_dynamo_dynamic_indices') == False
+| | +- GuardManager: source=L['___stack0'][1], accessed_by=TupleGetItemGuardAccessor(1)
+| | | +- ID_MATCH: ___check_obj_id(L['___stack0'][1], 7636800)                 
+| +- GuardManager: source=L['batch_size'], accessed_by=DictGetItemGuardAccessor(batch_size)
+| | +- EQUALS_MATCH: L['batch_size'] == 1                                        
+| +- GuardManager: source=L['from_seq_length'], accessed_by=DictGetItemGuardAccessor(from_seq_length)
+| | +- EQUALS_MATCH: L['from_seq_length'] == 832                                 
+| +- GuardManager: source=L['output_attentions'], accessed_by=DictGetItemGuardAccessor(output_attentions)
+| | +- ID_MATCH: ___check_obj_id(L['output_attentions'], 7685824)            

@@ -1,0 +1,168 @@
+
+TREE_GUARD_MANAGER:
++- RootGuardManager
+| +- DEFAULT_DEVICE: utils_device.CURRENT_DEVICE == None                           # _dynamo/output_graph.py:460 in init_ambient_guards
+| +- GLOBAL_STATE: ___check_global_state()
+| +- GuardManager: source=L['bsz'], accessed_by=DictGetItemGuardAccessor(bsz)
+| | +- EQUALS_MATCH: L['bsz'] == 1                                               
+| +- GuardManager: source=L['self'], accessed_by=DictGetItemGuardAccessor(self)
+| | +- ID_MATCH: ___check_obj_id(L['self'], 139838528543744)                 
+| | +- GuardManager: source=L['self'].__dict__, accessed_by=GetGenericDictGuardAccessor
+| | | +- GuardManager: source=L['self'].training, accessed_by=DictGetItemGuardAccessor(training)
+| | | | +- ID_MATCH: ___check_obj_id(L['self'].training, 7685824)                
+| +- GuardManager: source=L['n_heads'], accessed_by=DictGetItemGuardAccessor(n_heads)
+| | +- EQUALS_MATCH: L['n_heads'] == 12                                          
+| +- GuardManager: source=L['rsqrt_d'], accessed_by=DictGetItemGuardAccessor(rsqrt_d)
+| | +- EQUALS_MATCH: L['rsqrt_d'] == 0.125                                       
+| +- GuardManager: source=L['to_mask'], accessed_by=DictGetItemGuardAccessor(to_mask)
+| | +- TENSOR_MATCH: check_tensor(L['to_mask'], Tensor, DispatchKeySet(CPU, BackendSelect, ADInplaceOrView, AutogradCPU, AutocastCPU), torch.float32, device=None, requires_grad=False, size=[1, 1, 1, 832], stride=[832, 832, 832, 1])
+| | +- NO_HASATTR: hasattr(L['to_mask'], '_dynamo_dynamic_indices') == False   
+| | +- NO_TENSOR_ALIASING: check_no_aliasing(L['to_mask'], L['band_mask'], L['from_mask'], L['key_layer'], L['query_layer'], L['value_layer'], L['from_blocked_mask'], ___from_numpy(L['___stack0'][0]), ___from_numpy(L['___stack0'][1]), ___from_numpy(L['___stack0'][2]), ___from_numpy(L['___stack0'][3]), ___from_numpy(L['___stack0'][4]), ___from_numpy(L['___stack0'][5]), ___from_numpy(L['___stack0'][6]), ___from_numpy(L['___stack0'][7]), ___from_numpy(L['___stack0'][8]), ___from_numpy(L['___stack0'][9]), ___from_numpy(L['___stack0'][10]), ___from_numpy(L['___stack0'][11]))
+| +- GuardManager: source=L['___stack0'], accessed_by=DictGetItemGuardAccessor(___stack0)
+| | +- TYPE_MATCH: ___check_type_id(L['___stack0'], 7650400)                   
+| | +- LENGTH_CHECK: len(L['___stack0']) == 12                                   
+| | +- GuardManager: source=L['___stack0'][0], accessed_by=ListGetItemGuardAccessor(0)
+| | | +- GuardManager: source=___from_numpy(L['___stack0'][0]), accessed_by=PythonLambdaGuardAccessor
+| | | | +- TENSOR_MATCH: check_tensor(___from_numpy(L['___stack0'][0]), Tensor, DispatchKeySet(CPU, BackendSelect, ADInplaceOrView, AutogradCPU, AutocastCPU), torch.int32, device=None, requires_grad=False, size=[11, 3], stride=[3, 1])
+| | | | +- NO_HASATTR: hasattr(___from_numpy(L['___stack0'][0]), '_dynamo_dynamic_indices') == False
+| | | | +- NO_TENSOR_ALIASING: check_no_aliasing(L['to_mask'], L['band_mask'], L['from_mask'], L['key_layer'], L['query_layer'], L['value_layer'], L['from_blocked_mask'], ___from_numpy(L['___stack0'][0]), ___from_numpy(L['___stack0'][1]), ___from_numpy(L['___stack0'][2]), ___from_numpy(L['___stack0'][3]), ___from_numpy(L['___stack0'][4]), ___from_numpy(L['___stack0'][5]), ___from_numpy(L['___stack0'][6]), ___from_numpy(L['___stack0'][7]), ___from_numpy(L['___stack0'][8]), ___from_numpy(L['___stack0'][9]), ___from_numpy(L['___stack0'][10]), ___from_numpy(L['___stack0'][11]))
+| | +- GuardManager: source=L['___stack0'][1], accessed_by=ListGetItemGuardAccessor(1)
+| | | +- GuardManager: source=___from_numpy(L['___stack0'][1]), accessed_by=PythonLambdaGuardAccessor
+| | | | +- TENSOR_MATCH: check_tensor(___from_numpy(L['___stack0'][1]), Tensor, DispatchKeySet(CPU, BackendSelect, ADInplaceOrView, AutogradCPU, AutocastCPU), torch.int32, device=None, requires_grad=False, size=[11, 3], stride=[3, 1])
+| | | | +- NO_HASATTR: hasattr(___from_numpy(L['___stack0'][1]), '_dynamo_dynamic_indices') == False
+| | | | +- NO_TENSOR_ALIASING: check_no_aliasing(L['to_mask'], L['band_mask'], L['from_mask'], L['key_layer'], L['query_layer'], L['value_layer'], L['from_blocked_mask'], ___from_numpy(L['___stack0'][0]), ___from_numpy(L['___stack0'][1]), ___from_numpy(L['___stack0'][2]), ___from_numpy(L['___stack0'][3]), ___from_numpy(L['___stack0'][4]), ___from_numpy(L['___stack0'][5]), ___from_numpy(L['___stack0'][6]), ___from_numpy(L['___stack0'][7]), ___from_numpy(L['___stack0'][8]), ___from_numpy(L['___stack0'][9]), ___from_numpy(L['___stack0'][10]), ___from_numpy(L['___stack0'][11]))
+| | +- GuardManager: source=L['___stack0'][2], accessed_by=ListGetItemGuardAccessor(2)
+| | | +- GuardManager: source=___from_numpy(L['___stack0'][2]), accessed_by=PythonLambdaGuardAccessor
+| | | | +- TENSOR_MATCH: check_tensor(___from_numpy(L['___stack0'][2]), Tensor, DispatchKeySet(CPU, BackendSelect, ADInplaceOrView, AutogradCPU, AutocastCPU), torch.int32, device=None, requires_grad=False, size=[11, 3], stride=[3, 1])
+| | | | +- NO_HASATTR: hasattr(___from_numpy(L['___stack0'][2]), '_dynamo_dynamic_indices') == False
+| | | | +- NO_TENSOR_ALIASING: check_no_aliasing(L['to_mask'], L['band_mask'], L['from_mask'], L['key_layer'], L['query_layer'], L['value_layer'], L['from_blocked_mask'], ___from_numpy(L['___stack0'][0]), ___from_numpy(L['___stack0'][1]), ___from_numpy(L['___stack0'][2]), ___from_numpy(L['___stack0'][3]), ___from_numpy(L['___stack0'][4]), ___from_numpy(L['___stack0'][5]), ___from_numpy(L['___stack0'][6]), ___from_numpy(L['___stack0'][7]), ___from_numpy(L['___stack0'][8]), ___from_numpy(L['___stack0'][9]), ___from_numpy(L['___stack0'][10]), ___from_numpy(L['___stack0'][11]))
+| | +- GuardManager: source=L['___stack0'][3], accessed_by=ListGetItemGuardAccessor(3)
+| | | +- GuardManager: source=___from_numpy(L['___stack0'][3]), accessed_by=PythonLambdaGuardAccessor
+| | | | +- TENSOR_MATCH: check_tensor(___from_numpy(L['___stack0'][3]), Tensor, DispatchKeySet(CPU, BackendSelect, ADInplaceOrView, AutogradCPU, AutocastCPU), torch.int32, device=None, requires_grad=False, size=[11, 3], stride=[3, 1])
+| | | | +- NO_HASATTR: hasattr(___from_numpy(L['___stack0'][3]), '_dynamo_dynamic_indices') == False
+| | | | +- NO_TENSOR_ALIASING: check_no_aliasing(L['to_mask'], L['band_mask'], L['from_mask'], L['key_layer'], L['query_layer'], L['value_layer'], L['from_blocked_mask'], ___from_numpy(L['___stack0'][0]), ___from_numpy(L['___stack0'][1]), ___from_numpy(L['___stack0'][2]), ___from_numpy(L['___stack0'][3]), ___from_numpy(L['___stack0'][4]), ___from_numpy(L['___stack0'][5]), ___from_numpy(L['___stack0'][6]), ___from_numpy(L['___stack0'][7]), ___from_numpy(L['___stack0'][8]), ___from_numpy(L['___stack0'][9]), ___from_numpy(L['___stack0'][10]), ___from_numpy(L['___stack0'][11]))
+| | +- GuardManager: source=L['___stack0'][4], accessed_by=ListGetItemGuardAccessor(4)
+| | | +- GuardManager: source=___from_numpy(L['___stack0'][4]), accessed_by=PythonLambdaGuardAccessor
+| | | | +- TENSOR_MATCH: check_tensor(___from_numpy(L['___stack0'][4]), Tensor, DispatchKeySet(CPU, BackendSelect, ADInplaceOrView, AutogradCPU, AutocastCPU), torch.int32, device=None, requires_grad=False, size=[11, 3], stride=[3, 1])
+| | | | +- NO_HASATTR: hasattr(___from_numpy(L['___stack0'][4]), '_dynamo_dynamic_indices') == False
+| | | | +- NO_TENSOR_ALIASING: check_no_aliasing(L['to_mask'], L['band_mask'], L['from_mask'], L['key_layer'], L['query_layer'], L['value_layer'], L['from_blocked_mask'], ___from_numpy(L['___stack0'][0]), ___from_numpy(L['___stack0'][1]), ___from_numpy(L['___stack0'][2]), ___from_numpy(L['___stack0'][3]), ___from_numpy(L['___stack0'][4]), ___from_numpy(L['___stack0'][5]), ___from_numpy(L['___stack0'][6]), ___from_numpy(L['___stack0'][7]), ___from_numpy(L['___stack0'][8]), ___from_numpy(L['___stack0'][9]), ___from_numpy(L['___stack0'][10]), ___from_numpy(L['___stack0'][11]))
+| | +- GuardManager: source=L['___stack0'][5], accessed_by=ListGetItemGuardAccessor(5)
+| | | +- GuardManager: source=___from_numpy(L['___stack0'][5]), accessed_by=PythonLambdaGuardAccessor
+| | | | +- TENSOR_MATCH: check_tensor(___from_numpy(L['___stack0'][5]), Tensor, DispatchKeySet(CPU, BackendSelect, ADInplaceOrView, AutogradCPU, AutocastCPU), torch.int32, device=None, requires_grad=False, size=[11, 3], stride=[3, 1])
+| | | | +- NO_HASATTR: hasattr(___from_numpy(L['___stack0'][5]), '_dynamo_dynamic_indices') == False
+| | | | +- NO_TENSOR_ALIASING: check_no_aliasing(L['to_mask'], L['band_mask'], L['from_mask'], L['key_layer'], L['query_layer'], L['value_layer'], L['from_blocked_mask'], ___from_numpy(L['___stack0'][0]), ___from_numpy(L['___stack0'][1]), ___from_numpy(L['___stack0'][2]), ___from_numpy(L['___stack0'][3]), ___from_numpy(L['___stack0'][4]), ___from_numpy(L['___stack0'][5]), ___from_numpy(L['___stack0'][6]), ___from_numpy(L['___stack0'][7]), ___from_numpy(L['___stack0'][8]), ___from_numpy(L['___stack0'][9]), ___from_numpy(L['___stack0'][10]), ___from_numpy(L['___stack0'][11]))
+| | +- GuardManager: source=L['___stack0'][6], accessed_by=ListGetItemGuardAccessor(6)
+| | | +- GuardManager: source=___from_numpy(L['___stack0'][6]), accessed_by=PythonLambdaGuardAccessor
+| | | | +- TENSOR_MATCH: check_tensor(___from_numpy(L['___stack0'][6]), Tensor, DispatchKeySet(CPU, BackendSelect, ADInplaceOrView, AutogradCPU, AutocastCPU), torch.int32, device=None, requires_grad=False, size=[11, 3], stride=[3, 1])
+| | | | +- NO_HASATTR: hasattr(___from_numpy(L['___stack0'][6]), '_dynamo_dynamic_indices') == False
+| | | | +- NO_TENSOR_ALIASING: check_no_aliasing(L['to_mask'], L['band_mask'], L['from_mask'], L['key_layer'], L['query_layer'], L['value_layer'], L['from_blocked_mask'], ___from_numpy(L['___stack0'][0]), ___from_numpy(L['___stack0'][1]), ___from_numpy(L['___stack0'][2]), ___from_numpy(L['___stack0'][3]), ___from_numpy(L['___stack0'][4]), ___from_numpy(L['___stack0'][5]), ___from_numpy(L['___stack0'][6]), ___from_numpy(L['___stack0'][7]), ___from_numpy(L['___stack0'][8]), ___from_numpy(L['___stack0'][9]), ___from_numpy(L['___stack0'][10]), ___from_numpy(L['___stack0'][11]))
+| | +- GuardManager: source=L['___stack0'][7], accessed_by=ListGetItemGuardAccessor(7)
+| | | +- GuardManager: source=___from_numpy(L['___stack0'][7]), accessed_by=PythonLambdaGuardAccessor
+| | | | +- TENSOR_MATCH: check_tensor(___from_numpy(L['___stack0'][7]), Tensor, DispatchKeySet(CPU, BackendSelect, ADInplaceOrView, AutogradCPU, AutocastCPU), torch.int32, device=None, requires_grad=False, size=[11, 3], stride=[3, 1])
+| | | | +- NO_HASATTR: hasattr(___from_numpy(L['___stack0'][7]), '_dynamo_dynamic_indices') == False
+| | | | +- NO_TENSOR_ALIASING: check_no_aliasing(L['to_mask'], L['band_mask'], L['from_mask'], L['key_layer'], L['query_layer'], L['value_layer'], L['from_blocked_mask'], ___from_numpy(L['___stack0'][0]), ___from_numpy(L['___stack0'][1]), ___from_numpy(L['___stack0'][2]), ___from_numpy(L['___stack0'][3]), ___from_numpy(L['___stack0'][4]), ___from_numpy(L['___stack0'][5]), ___from_numpy(L['___stack0'][6]), ___from_numpy(L['___stack0'][7]), ___from_numpy(L['___stack0'][8]), ___from_numpy(L['___stack0'][9]), ___from_numpy(L['___stack0'][10]), ___from_numpy(L['___stack0'][11]))
+| | +- GuardManager: source=L['___stack0'][8], accessed_by=ListGetItemGuardAccessor(8)
+| | | +- GuardManager: source=___from_numpy(L['___stack0'][8]), accessed_by=PythonLambdaGuardAccessor
+| | | | +- TENSOR_MATCH: check_tensor(___from_numpy(L['___stack0'][8]), Tensor, DispatchKeySet(CPU, BackendSelect, ADInplaceOrView, AutogradCPU, AutocastCPU), torch.int32, device=None, requires_grad=False, size=[11, 3], stride=[3, 1])
+| | | | +- NO_HASATTR: hasattr(___from_numpy(L['___stack0'][8]), '_dynamo_dynamic_indices') == False
+| | | | +- NO_TENSOR_ALIASING: check_no_aliasing(L['to_mask'], L['band_mask'], L['from_mask'], L['key_layer'], L['query_layer'], L['value_layer'], L['from_blocked_mask'], ___from_numpy(L['___stack0'][0]), ___from_numpy(L['___stack0'][1]), ___from_numpy(L['___stack0'][2]), ___from_numpy(L['___stack0'][3]), ___from_numpy(L['___stack0'][4]), ___from_numpy(L['___stack0'][5]), ___from_numpy(L['___stack0'][6]), ___from_numpy(L['___stack0'][7]), ___from_numpy(L['___stack0'][8]), ___from_numpy(L['___stack0'][9]), ___from_numpy(L['___stack0'][10]), ___from_numpy(L['___stack0'][11]))
+| | +- GuardManager: source=L['___stack0'][9], accessed_by=ListGetItemGuardAccessor(9)
+| | | +- GuardManager: source=___from_numpy(L['___stack0'][9]), accessed_by=PythonLambdaGuardAccessor
+| | | | +- TENSOR_MATCH: check_tensor(___from_numpy(L['___stack0'][9]), Tensor, DispatchKeySet(CPU, BackendSelect, ADInplaceOrView, AutogradCPU, AutocastCPU), torch.int32, device=None, requires_grad=False, size=[11, 3], stride=[3, 1])
+| | | | +- NO_HASATTR: hasattr(___from_numpy(L['___stack0'][9]), '_dynamo_dynamic_indices') == False
+| | | | +- NO_TENSOR_ALIASING: check_no_aliasing(L['to_mask'], L['band_mask'], L['from_mask'], L['key_layer'], L['query_layer'], L['value_layer'], L['from_blocked_mask'], ___from_numpy(L['___stack0'][0]), ___from_numpy(L['___stack0'][1]), ___from_numpy(L['___stack0'][2]), ___from_numpy(L['___stack0'][3]), ___from_numpy(L['___stack0'][4]), ___from_numpy(L['___stack0'][5]), ___from_numpy(L['___stack0'][6]), ___from_numpy(L['___stack0'][7]), ___from_numpy(L['___stack0'][8]), ___from_numpy(L['___stack0'][9]), ___from_numpy(L['___stack0'][10]), ___from_numpy(L['___stack0'][11]))
+| | +- GuardManager: source=L['___stack0'][10], accessed_by=ListGetItemGuardAccessor(10)
+| | | +- GuardManager: source=___from_numpy(L['___stack0'][10]), accessed_by=PythonLambdaGuardAccessor
+| | | | +- TENSOR_MATCH: check_tensor(___from_numpy(L['___stack0'][10]), Tensor, DispatchKeySet(CPU, BackendSelect, ADInplaceOrView, AutogradCPU, AutocastCPU), torch.int32, device=None, requires_grad=False, size=[11, 3], stride=[3, 1])
+| | | | +- NO_HASATTR: hasattr(___from_numpy(L['___stack0'][10]), '_dynamo_dynamic_indices') == False
+| | | | +- NO_TENSOR_ALIASING: check_no_aliasing(L['to_mask'], L['band_mask'], L['from_mask'], L['key_layer'], L['query_layer'], L['value_layer'], L['from_blocked_mask'], ___from_numpy(L['___stack0'][0]), ___from_numpy(L['___stack0'][1]), ___from_numpy(L['___stack0'][2]), ___from_numpy(L['___stack0'][3]), ___from_numpy(L['___stack0'][4]), ___from_numpy(L['___stack0'][5]), ___from_numpy(L['___stack0'][6]), ___from_numpy(L['___stack0'][7]), ___from_numpy(L['___stack0'][8]), ___from_numpy(L['___stack0'][9]), ___from_numpy(L['___stack0'][10]), ___from_numpy(L['___stack0'][11]))
+| | +- GuardManager: source=L['___stack0'][11], accessed_by=ListGetItemGuardAccessor(11)
+| | | +- GuardManager: source=___from_numpy(L['___stack0'][11]), accessed_by=PythonLambdaGuardAccessor
+| | | | +- TENSOR_MATCH: check_tensor(___from_numpy(L['___stack0'][11]), Tensor, DispatchKeySet(CPU, BackendSelect, ADInplaceOrView, AutogradCPU, AutocastCPU), torch.int32, device=None, requires_grad=False, size=[11, 3], stride=[3, 1])
+| | | | +- NO_HASATTR: hasattr(___from_numpy(L['___stack0'][11]), '_dynamo_dynamic_indices') == False
+| | | | +- NO_TENSOR_ALIASING: check_no_aliasing(L['to_mask'], L['band_mask'], L['from_mask'], L['key_layer'], L['query_layer'], L['value_layer'], L['from_blocked_mask'], ___from_numpy(L['___stack0'][0]), ___from_numpy(L['___stack0'][1]), ___from_numpy(L['___stack0'][2]), ___from_numpy(L['___stack0'][3]), ___from_numpy(L['___stack0'][4]), ___from_numpy(L['___stack0'][5]), ___from_numpy(L['___stack0'][6]), ___from_numpy(L['___stack0'][7]), ___from_numpy(L['___stack0'][8]), ___from_numpy(L['___stack0'][9]), ___from_numpy(L['___stack0'][10]), ___from_numpy(L['___stack0'][11]))
+| +- GuardManager: source=L['band_mask'], accessed_by=DictGetItemGuardAccessor(band_mask)
+| | +- TENSOR_MATCH: check_tensor(L['band_mask'], Tensor, DispatchKeySet(CPU, BackendSelect, ADInplaceOrView, AutogradCPU, AutocastCPU), torch.float32, device=None, requires_grad=False, size=[1, 1, 9, 64, 192], stride=[110592, 110592, 12288, 192, 1])
+| | +- NO_HASATTR: hasattr(L['band_mask'], '_dynamo_dynamic_indices') == False 
+| | +- NO_TENSOR_ALIASING: check_no_aliasing(L['to_mask'], L['band_mask'], L['from_mask'], L['key_layer'], L['query_layer'], L['value_layer'], L['from_blocked_mask'], ___from_numpy(L['___stack0'][0]), ___from_numpy(L['___stack0'][1]), ___from_numpy(L['___stack0'][2]), ___from_numpy(L['___stack0'][3]), ___from_numpy(L['___stack0'][4]), ___from_numpy(L['___stack0'][5]), ___from_numpy(L['___stack0'][6]), ___from_numpy(L['___stack0'][7]), ___from_numpy(L['___stack0'][8]), ___from_numpy(L['___stack0'][9]), ___from_numpy(L['___stack0'][10]), ___from_numpy(L['___stack0'][11]))
+| +- GuardManager: source=L['from_mask'], accessed_by=DictGetItemGuardAccessor(from_mask)
+| | +- TENSOR_MATCH: check_tensor(L['from_mask'], Tensor, DispatchKeySet(CPU, BackendSelect, ADInplaceOrView, AutogradCPU, AutocastCPU), torch.float32, device=None, requires_grad=False, size=[1, 1, 832, 1], stride=[832, 832, 1, 1])
+| | +- NO_HASATTR: hasattr(L['from_mask'], '_dynamo_dynamic_indices') == False 
+| | +- NO_TENSOR_ALIASING: check_no_aliasing(L['to_mask'], L['band_mask'], L['from_mask'], L['key_layer'], L['query_layer'], L['value_layer'], L['from_blocked_mask'], ___from_numpy(L['___stack0'][0]), ___from_numpy(L['___stack0'][1]), ___from_numpy(L['___stack0'][2]), ___from_numpy(L['___stack0'][3]), ___from_numpy(L['___stack0'][4]), ___from_numpy(L['___stack0'][5]), ___from_numpy(L['___stack0'][6]), ___from_numpy(L['___stack0'][7]), ___from_numpy(L['___stack0'][8]), ___from_numpy(L['___stack0'][9]), ___from_numpy(L['___stack0'][10]), ___from_numpy(L['___stack0'][11]))
+| +- GuardManager: source=L['key_layer'], accessed_by=DictGetItemGuardAccessor(key_layer)
+| | +- TENSOR_MATCH: check_tensor(L['key_layer'], Tensor, DispatchKeySet(CPU, BackendSelect, ADInplaceOrView, AutogradCPU, AutocastCPU), torch.bfloat16, device=None, requires_grad=False, size=[1, 12, 832, 64], stride=[638976, 64, 768, 1])
+| | +- NO_HASATTR: hasattr(L['key_layer'], '_dynamo_dynamic_indices') == False 
+| | +- NO_TENSOR_ALIASING: check_no_aliasing(L['to_mask'], L['band_mask'], L['from_mask'], L['key_layer'], L['query_layer'], L['value_layer'], L['from_blocked_mask'], ___from_numpy(L['___stack0'][0]), ___from_numpy(L['___stack0'][1]), ___from_numpy(L['___stack0'][2]), ___from_numpy(L['___stack0'][3]), ___from_numpy(L['___stack0'][4]), ___from_numpy(L['___stack0'][5]), ___from_numpy(L['___stack0'][6]), ___from_numpy(L['___stack0'][7]), ___from_numpy(L['___stack0'][8]), ___from_numpy(L['___stack0'][9]), ___from_numpy(L['___stack0'][10]), ___from_numpy(L['___stack0'][11]))
+| +- GuardManager: source=L['batch_size'], accessed_by=DictGetItemGuardAccessor(batch_size)
+| | +- EQUALS_MATCH: L['batch_size'] == 1                                        
+| +- GuardManager: source=L['to_seq_len'], accessed_by=DictGetItemGuardAccessor(to_seq_len)
+| | +- EQUALS_MATCH: L['to_seq_len'] == 832                                      
+| +- GuardManager: source=L['query_layer'], accessed_by=DictGetItemGuardAccessor(query_layer)
+| | +- TENSOR_MATCH: check_tensor(L['query_layer'], Tensor, DispatchKeySet(CPU, BackendSelect, ADInplaceOrView, AutogradCPU, AutocastCPU), torch.bfloat16, device=None, requires_grad=False, size=[1, 12, 832, 64], stride=[638976, 64, 768, 1])
+| | +- NO_HASATTR: hasattr(L['query_layer'], '_dynamo_dynamic_indices') == False
+| | +- NO_TENSOR_ALIASING: check_no_aliasing(L['to_mask'], L['band_mask'], L['from_mask'], L['key_layer'], L['query_layer'], L['value_layer'], L['from_blocked_mask'], ___from_numpy(L['___stack0'][0]), ___from_numpy(L['___stack0'][1]), ___from_numpy(L['___stack0'][2]), ___from_numpy(L['___stack0'][3]), ___from_numpy(L['___stack0'][4]), ___from_numpy(L['___stack0'][5]), ___from_numpy(L['___stack0'][6]), ___from_numpy(L['___stack0'][7]), ___from_numpy(L['___stack0'][8]), ___from_numpy(L['___stack0'][9]), ___from_numpy(L['___stack0'][10]), ___from_numpy(L['___stack0'][11]))
+| +- GuardManager: source=L['value_layer'], accessed_by=DictGetItemGuardAccessor(value_layer)
+| | +- TENSOR_MATCH: check_tensor(L['value_layer'], Tensor, DispatchKeySet(CPU, BackendSelect, ADInplaceOrView, AutogradCPU, AutocastCPU), torch.bfloat16, device=None, requires_grad=False, size=[1, 12, 832, 64], stride=[638976, 64, 768, 1])
+| | +- NO_HASATTR: hasattr(L['value_layer'], '_dynamo_dynamic_indices') == False
+| | +- NO_TENSOR_ALIASING: check_no_aliasing(L['to_mask'], L['band_mask'], L['from_mask'], L['key_layer'], L['query_layer'], L['value_layer'], L['from_blocked_mask'], ___from_numpy(L['___stack0'][0]), ___from_numpy(L['___stack0'][1]), ___from_numpy(L['___stack0'][2]), ___from_numpy(L['___stack0'][3]), ___from_numpy(L['___stack0'][4]), ___from_numpy(L['___stack0'][5]), ___from_numpy(L['___stack0'][6]), ___from_numpy(L['___stack0'][7]), ___from_numpy(L['___stack0'][8]), ___from_numpy(L['___stack0'][9]), ___from_numpy(L['___stack0'][10]), ___from_numpy(L['___stack0'][11]))
+| +- GuardManager: source=L['from_seq_len'], accessed_by=DictGetItemGuardAccessor(from_seq_len)
+| | +- EQUALS_MATCH: L['from_seq_len'] == 832                                    
+| +- GuardManager: source=L['n_rand_blocks'], accessed_by=DictGetItemGuardAccessor(n_rand_blocks)
+| | +- EQUALS_MATCH: L['n_rand_blocks'] == 3                                     
+| +- GuardManager: source=L['to_block_size'], accessed_by=DictGetItemGuardAccessor(to_block_size)
+| | +- EQUALS_MATCH: L['to_block_size'] == 64                                    
+| +- GuardManager: source=L['from_block_size'], accessed_by=DictGetItemGuardAccessor(from_block_size)
+| | +- EQUALS_MATCH: L['from_block_size'] == 64                                  
+| +- GuardManager: source=L['attn_mask_penalty'], accessed_by=DictGetItemGuardAccessor(attn_mask_penalty)
+| | +- EQUALS_MATCH: L['attn_mask_penalty'] == -10000.0                          
+| +- GuardManager: source=L['from_blocked_mask'], accessed_by=DictGetItemGuardAccessor(from_blocked_mask)
+| | +- TENSOR_MATCH: check_tensor(L['from_blocked_mask'], Tensor, DispatchKeySet(CPU, BackendSelect, ADInplaceOrView, AutogradCPU, AutocastCPU), torch.float32, device=None, requires_grad=False, size=[1, 13, 64], stride=[832, 64, 1])
+| | +- NO_HASATTR: hasattr(L['from_blocked_mask'], '_dynamo_dynamic_indices') == False
+| | +- TENSOR_ALIASING: L['from_blocked_mask'] is L['to_blocked_mask']              
+| | +- NO_TENSOR_ALIASING: check_no_aliasing(L['to_mask'], L['band_mask'], L['from_mask'], L['key_layer'], L['query_layer'], L['value_layer'], L['from_blocked_mask'], ___from_numpy(L['___stack0'][0]), ___from_numpy(L['___stack0'][1]), ___from_numpy(L['___stack0'][2]), ___from_numpy(L['___stack0'][3]), ___from_numpy(L['___stack0'][4]), ___from_numpy(L['___stack0'][5]), ___from_numpy(L['___stack0'][6]), ___from_numpy(L['___stack0'][7]), ___from_numpy(L['___stack0'][8]), ___from_numpy(L['___stack0'][9]), ___from_numpy(L['___stack0'][10]), ___from_numpy(L['___stack0'][11]))
+| +- GuardManager: source=L['output_attentions'], accessed_by=DictGetItemGuardAccessor(output_attentions)
+| | +- ID_MATCH: ___check_obj_id(L['output_attentions'], 7685824)            
+| +- GuardManager: source=G, accessed_by=GlobalsGuardAccessor
+| | +- GuardManager: source=G['nn'], accessed_by=DictGetItemGuardAccessor(nn)
+| | | +- ID_MATCH: ___check_obj_id(G['nn'], 139842442593680)                   
+| | | +- GuardManager: source=G['nn'].functional, accessed_by=GetAttrGuardAccessor(functional)
+| | | | +- ID_MATCH: ___check_obj_id(G['nn'].functional, 139842441627024)        
+| | | | +- GuardManager: source=G['nn'].functional.softmax, accessed_by=GetAttrGuardAccessor(softmax)
+| | | | | +- ID_MATCH: ___check_obj_id(G['nn'].functional.softmax, 139842422997488)
+| | +- GuardManager: source=G['np'], accessed_by=DictGetItemGuardAccessor(np)
+| | | +- ID_MATCH: ___check_obj_id(G['np'], 139845228893488)                   
+| | | +- GuardManager: source=G['np'].stack, accessed_by=GetAttrGuardAccessor(stack)
+| | | | +- ID_MATCH: ___check_obj_id(G['np'].stack, 139844763318256)             
+| | +- GuardManager: source=G['torch'], accessed_by=DictGetItemGuardAccessor(torch)
+| | | +- ID_MATCH: ___check_obj_id(G['torch'], 139845236322800)                
+| | | +- GuardManager: source=G['torch'].bmm, accessed_by=GetAttrGuardAccessor(bmm)
+| | | | +- ID_MATCH: ___check_obj_id(G['torch'].bmm, 139845228834192)            
+| | | +- GuardManager: source=G['torch'].cat, accessed_by=GetAttrGuardAccessor(cat)
+| | | | +- ID_MATCH: ___check_obj_id(G['torch'].cat, 139845228834672)            
+| | | +- GuardManager: source=G['torch'].div, accessed_by=GetAttrGuardAccessor(div)
+| | | | +- ID_MATCH: ___check_obj_id(G['torch'].div, 139845228790304)            
+| | | +- GuardManager: source=G['torch'].long, accessed_by=GetAttrGuardAccessor(long)
+| | | | +- EQUALS_MATCH: G['torch'].long == torch.int64                              
+| | | +- GuardManager: source=G['torch'].stack, accessed_by=GetAttrGuardAccessor(stack)
+| | | | +- ID_MATCH: ___check_obj_id(G['torch'].stack, 139845228799024)          
+| | | +- GuardManager: source=G['torch'].arange, accessed_by=GetAttrGuardAccessor(arange)
+| | | | +- ID_MATCH: ___check_obj_id(G['torch'].arange, 139845228706960)         
+| | | +- GuardManager: source=G['torch'].einsum, accessed_by=GetAttrGuardAccessor(einsum)
+| | | | +- ID_MATCH: ___check_obj_id(G['torch'].einsum, 139842415911568)         
+| | | +- GuardManager: source=G['torch'].tensor, accessed_by=GetAttrGuardAccessor(tensor)
+| | | | +- ID_MATCH: ___check_obj_id(G['torch'].tensor, 139845228703840)         
+| | | +- GuardManager: source=G['torch'].minimum, accessed_by=GetAttrGuardAccessor(minimum)
+| | | | +- ID_MATCH: ___check_obj_id(G['torch'].minimum, 139845228824272)        
+| | | +- GuardManager: source=G['torch'].transpose, accessed_by=GetAttrGuardAccessor(transpose)
+| | | | +- ID_MATCH: ___check_obj_id(G['torch'].transpose, 139845228736688)      
+| | +- GuardManager: source=G['__builtins_dict___167'], accessed_by=DictGetItemGuardAccessor(__builtins_dict___167)
+| | | +- GuardManager: source=G['__builtins_dict___167']['len'], accessed_by=DictGetItemGuardAccessor(len)
+| | | | +- ID_MATCH: ___check_obj_id(G['__builtins_dict___167']['len'], 139845257826832)
+| | | +- GuardManager: source=G['__builtins_dict___167']['zip'], accessed_by=DictGetItemGuardAccessor(zip)
+| | | | +- ID_MATCH: ___check_obj_id(G['__builtins_dict___167']['zip'], 7491872) 
+| | | +- GuardManager: source=G['__builtins_dict___167']['range'], accessed_by=DictGetItemGuardAccessor(range)
+| | | | +- ID_MATCH: ___check_obj_id(G['__builtins_dict___167']['range'], 7632448)
+| | +- GuardManager: source=G['__import_torch_dot__dynamo_dot_polyfill'], accessed_by=DictGetItemGuardAccessor(__import_torch_dot__dynamo_dot_polyfill)
+| | | +- ID_MATCH: ___check_obj_id(G['__import_torch_dot__dynamo_dot_polyfill'], 139839728158336)
+| +- GuardManager: source=L['to_blocked_mask'], accessed_by=DictGetItemGuardAccessor(to_blocked_mask)
+| | +- TENSOR_ALIASING: L['from_blocked_mask'] is L['to_blocked_mask']              

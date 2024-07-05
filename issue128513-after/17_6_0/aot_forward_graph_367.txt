@@ -1,0 +1,27 @@
+class <lambda>(torch.nn.Module):
+    def forward(self, arg0_1: "f32[768, 768][768, 1]cpu", arg1_1: "f32[768][1]cpu", arg2_1: "f32[768][1]cpu", arg3_1: "f32[768][1]cpu", arg4_1: "f32[1, 832, 768][638976, 768, 1]cpu", arg5_1: "f32[1, 832, 768][638976, 768, 1]cpu"):
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:1316 in forward, code: hidden_states = self.dense(hidden_states)
+        convert_element_type: "bf16[768][1]cpu" = torch.ops.prims.convert_element_type.default(arg1_1, torch.bfloat16);  arg1_1 = None
+        convert_element_type_1: "bf16[768, 768][768, 1]cpu" = torch.ops.prims.convert_element_type.default(arg0_1, torch.bfloat16);  arg0_1 = None
+        convert_element_type_2: "bf16[1, 832, 768][638976, 768, 1]cpu" = torch.ops.prims.convert_element_type.default(arg4_1, torch.bfloat16);  arg4_1 = None
+        view: "bf16[832, 768][768, 1]cpu" = torch.ops.aten.view.default(convert_element_type_2, [832, 768]);  convert_element_type_2 = None
+        permute: "bf16[768, 768][1, 768]cpu" = torch.ops.aten.permute.default(convert_element_type_1, [1, 0]);  convert_element_type_1 = None
+        addmm: "bf16[832, 768][768, 1]cpu" = torch.ops.aten.addmm.default(convert_element_type, view, permute);  convert_element_type = view = permute = None
+        view_1: "bf16[1, 832, 768][638976, 768, 1]cpu" = torch.ops.aten.view.default(addmm, [1, 832, 768]);  addmm = None
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:1317 in forward, code: hidden_states = self.dropout(hidden_states)
+        clone: "bf16[1, 832, 768][638976, 768, 1]cpu" = torch.ops.aten.clone.default(view_1);  view_1 = None
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:1318 in forward, code: hidden_states = self.LayerNorm(hidden_states + input_tensor)
+        add: "f32[1, 832, 768][638976, 768, 1]cpu" = torch.ops.aten.add.Tensor(clone, arg5_1);  clone = arg5_1 = None
+        var_mean = torch.ops.aten.var_mean.correction(add, [2], correction = 0, keepdim = True)
+        getitem: "f32[1, 832, 1][832, 1, 1]cpu" = var_mean[0]
+        getitem_1: "f32[1, 832, 1][832, 1, 1]cpu" = var_mean[1];  var_mean = None
+        add_1: "f32[1, 832, 1][832, 1, 1]cpu" = torch.ops.aten.add.Tensor(getitem, 1e-12);  getitem = None
+        rsqrt: "f32[1, 832, 1][832, 1, 1]cpu" = torch.ops.aten.rsqrt.default(add_1);  add_1 = None
+        sub: "f32[1, 832, 768][638976, 768, 1]cpu" = torch.ops.aten.sub.Tensor(add, getitem_1);  add = getitem_1 = None
+        mul: "f32[1, 832, 768][638976, 768, 1]cpu" = torch.ops.aten.mul.Tensor(sub, rsqrt);  sub = rsqrt = None
+        mul_1: "f32[1, 832, 768][638976, 768, 1]cpu" = torch.ops.aten.mul.Tensor(mul, arg2_1);  mul = arg2_1 = None
+        add_2: "f32[1, 832, 768][638976, 768, 1]cpu" = torch.ops.aten.add.Tensor(mul_1, arg3_1);  mul_1 = arg3_1 = None
+        return (add_2,)
+        

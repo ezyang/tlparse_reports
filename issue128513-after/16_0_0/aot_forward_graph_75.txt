@@ -1,0 +1,7 @@
+class <lambda>(torch.nn.Module):
+    def forward(self, arg0_1: "f32[1, 832, 12, 64][638976, 64, 53248, 1]cpu"):
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:495 in torch_dynamo_resume_in_forward_at_472, code: context_layer = context_layer.contiguous().view(batch_size, from_seq_length, -1)
+        clone: "f32[1, 832, 12, 64][638976, 768, 64, 1]cpu" = torch.ops.aten.clone.default(arg0_1, memory_format = torch.contiguous_format);  arg0_1 = None
+        view: "f32[1, 832, 768][638976, 768, 1]cpu" = torch.ops.aten.view.default(clone, [1, 832, -1]);  clone = None
+        return (view,)
+        

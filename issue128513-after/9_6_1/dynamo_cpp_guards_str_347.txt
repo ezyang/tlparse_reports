@@ -1,0 +1,62 @@
+
+TREE_GUARD_MANAGER:
++- RootGuardManager
+| +- DEFAULT_DEVICE: utils_device.CURRENT_DEVICE == None                           # _dynamo/output_graph.py:460 in init_ambient_guards
+| +- GLOBAL_STATE: ___check_global_state()
+| +- GuardManager: source=L['self'], accessed_by=DictGetItemGuardAccessor(self)
+| | +- ID_MATCH: ___check_obj_id(L['self'], 139838528546192)                 
+| | +- GuardManager: source=L['self'].__dict__, accessed_by=GetGenericDictGuardAccessor
+| | | +- GuardManager: source=L['self'].training, accessed_by=DictGetItemGuardAccessor(training)
+| | | | +- ID_MATCH: ___check_obj_id(L['self'].training, 7685824)                
+| | | +- GuardManager: source=L['self']._modules, accessed_by=DictGetItemGuardAccessor(_modules)
+| | | | +- GuardManager: source=L['self'].key, accessed_by=DictGetItemGuardAccessor(key)
+| | | | | +- ID_MATCH: ___check_obj_id(L['self'].key, 139838528546576)             
+| | | | | +- GuardManager: source=L['self'].key.__dict__, accessed_by=GetGenericDictGuardAccessor
+| | | | | | +- GuardManager: source=L['self'].key.training, accessed_by=DictGetItemGuardAccessor(training)
+| | | | | | | +- ID_MATCH: ___check_obj_id(L['self'].key.training, 7685824)            
+| | | | +- GuardManager: source=L['self'].query, accessed_by=DictGetItemGuardAccessor(query)
+| | | | | +- ID_MATCH: ___check_obj_id(L['self'].query, 139838528546528)           
+| | | | | +- GuardManager: source=L['self'].query.__dict__, accessed_by=GetGenericDictGuardAccessor
+| | | | | | +- GuardManager: source=L['self'].query.training, accessed_by=DictGetItemGuardAccessor(training)
+| | | | | | | +- ID_MATCH: ___check_obj_id(L['self'].query.training, 7685824)          
+| | | | +- GuardManager: source=L['self'].value, accessed_by=DictGetItemGuardAccessor(value)
+| | | | | +- ID_MATCH: ___check_obj_id(L['self'].value, 139838528546720)           
+| | | | | +- GuardManager: source=L['self'].value.__dict__, accessed_by=GetGenericDictGuardAccessor
+| | | | | | +- GuardManager: source=L['self'].value.training, accessed_by=DictGetItemGuardAccessor(training)
+| | | | | | | +- ID_MATCH: ___check_obj_id(L['self'].value.training, 7685824)          
+| | | +- GuardManager: source=L['self'].seed, accessed_by=DictGetItemGuardAccessor(seed)
+| | | | +- TYPE_MATCH: ___check_type_id(L['self'].seed, 7648640)                   
+| | | +- GuardManager: source=L['self'].block_size, accessed_by=DictGetItemGuardAccessor(block_size)
+| | | | +- EQUALS_MATCH: L['self'].block_size == 64                                  
+| | | +- GuardManager: source=L['self'].num_random_blocks, accessed_by=DictGetItemGuardAccessor(num_random_blocks)
+| | | | +- EQUALS_MATCH: L['self'].num_random_blocks == 3                            
+| | | +- GuardManager: source=L['self'].attention_head_size, accessed_by=DictGetItemGuardAccessor(attention_head_size)
+| | | | +- EQUALS_MATCH: L['self'].attention_head_size == 64                         
+| | | +- GuardManager: source=L['self'].num_attention_heads, accessed_by=DictGetItemGuardAccessor(num_attention_heads)
+| | | | +- EQUALS_MATCH: L['self'].num_attention_heads == 12                         
+| +- GuardManager: source=L['to_mask'], accessed_by=DictGetItemGuardAccessor(to_mask)
+| | +- TENSOR_MATCH: check_tensor(L['to_mask'], Tensor, DispatchKeySet(CPU, BackendSelect, ADInplaceOrView, AutogradCPU, AutocastCPU), torch.float32, device=None, requires_grad=False, size=[1, 1, 1, 832], stride=[832, 832, 832, 1])
+| | +- NO_HASATTR: hasattr(L['to_mask'], '_dynamo_dynamic_indices') == False   
+| | +- NO_TENSOR_ALIASING: check_no_aliasing(L['to_mask'], L['band_mask'], L['from_mask'], L['hidden_states'], L['from_blocked_mask'])
+| +- GuardManager: source=L['band_mask'], accessed_by=DictGetItemGuardAccessor(band_mask)
+| | +- TENSOR_MATCH: check_tensor(L['band_mask'], Tensor, DispatchKeySet(CPU, BackendSelect, ADInplaceOrView, AutogradCPU, AutocastCPU), torch.float32, device=None, requires_grad=False, size=[1, 1, 9, 64, 192], stride=[110592, 110592, 12288, 192, 1])
+| | +- NO_HASATTR: hasattr(L['band_mask'], '_dynamo_dynamic_indices') == False 
+| | +- NO_TENSOR_ALIASING: check_no_aliasing(L['to_mask'], L['band_mask'], L['from_mask'], L['hidden_states'], L['from_blocked_mask'])
+| +- GuardManager: source=L['from_mask'], accessed_by=DictGetItemGuardAccessor(from_mask)
+| | +- TENSOR_MATCH: check_tensor(L['from_mask'], Tensor, DispatchKeySet(CPU, BackendSelect, ADInplaceOrView, AutogradCPU, AutocastCPU), torch.float32, device=None, requires_grad=False, size=[1, 1, 832, 1], stride=[832, 832, 1, 1])
+| | +- NO_HASATTR: hasattr(L['from_mask'], '_dynamo_dynamic_indices') == False 
+| | +- NO_TENSOR_ALIASING: check_no_aliasing(L['to_mask'], L['band_mask'], L['from_mask'], L['hidden_states'], L['from_blocked_mask'])
+| +- GuardManager: source=L['hidden_states'], accessed_by=DictGetItemGuardAccessor(hidden_states)
+| | +- TENSOR_MATCH: check_tensor(L['hidden_states'], Tensor, DispatchKeySet(CPU, BackendSelect, ADInplaceOrView, AutogradCPU, AutocastCPU), torch.float32, device=None, requires_grad=False, size=[1, 832, 768], stride=[638976, 768, 1])
+| | +- NO_HASATTR: hasattr(L['hidden_states'], '_dynamo_dynamic_indices') == False
+| | +- NO_TENSOR_ALIASING: check_no_aliasing(L['to_mask'], L['band_mask'], L['from_mask'], L['hidden_states'], L['from_blocked_mask'])
+| +- GuardManager: source=L['from_blocked_mask'], accessed_by=DictGetItemGuardAccessor(from_blocked_mask)
+| | +- TENSOR_MATCH: check_tensor(L['from_blocked_mask'], Tensor, DispatchKeySet(CPU, BackendSelect, ADInplaceOrView, AutogradCPU, AutocastCPU), torch.float32, device=None, requires_grad=False, size=[1, 13, 64], stride=[832, 64, 1])
+| | +- NO_HASATTR: hasattr(L['from_blocked_mask'], '_dynamo_dynamic_indices') == False
+| | +- TENSOR_ALIASING: L['from_blocked_mask'] is L['to_blocked_mask']              
+| | +- NO_TENSOR_ALIASING: check_no_aliasing(L['to_mask'], L['band_mask'], L['from_mask'], L['hidden_states'], L['from_blocked_mask'])
+| +- GuardManager: source=L['output_attentions'], accessed_by=DictGetItemGuardAccessor(output_attentions)
+| | +- ID_MATCH: ___check_obj_id(L['output_attentions'], 7685824)            
+| +- GuardManager: source=L['to_blocked_mask'], accessed_by=DictGetItemGuardAccessor(to_blocked_mask)
+| | +- TENSOR_ALIASING: L['from_blocked_mask'] is L['to_blocked_mask']              
++- LAMBDA_GUARD: -9223372036854775808 <= L['self'].seed                        # _dynamo/output_graph.py:452 in init_ambient_guards

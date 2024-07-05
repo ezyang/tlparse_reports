@@ -1,0 +1,4 @@
+class <lambda>(torch.nn.Module):
+    def forward(self):
+        return ()
+        

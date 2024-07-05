@@ -1,0 +1,18 @@
+class <lambda>(torch.nn.Module):
+    def forward(self, arg0_1: "f32[768, 768][768, 1]cpu", arg1_1: "f32[768][1]cpu", arg2_1: "f32[1, 832, 768][638976, 768, 1]cpu"):
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:2151 in torch_dynamo_resume_in_forward_at_2133, code: pooler_output = self.activation(self.pooler(sequence_output[:, 0, :])) if (self.pooler is not None) else None
+        slice_1: "f32[1, 832, 768][638976, 768, 1]cpu" = torch.ops.aten.slice.Tensor(arg2_1, 0, 0, 9223372036854775807)
+        select: "f32[1, 768][638976, 1]cpu" = torch.ops.aten.select.int(slice_1, 1, 0);  slice_1 = None
+        slice_2: "f32[1, 768][638976, 1]cpu" = torch.ops.aten.slice.Tensor(select, 1, 0, 9223372036854775807);  select = None
+        convert_element_type: "bf16[768][1]cpu" = torch.ops.prims.convert_element_type.default(arg1_1, torch.bfloat16);  arg1_1 = None
+        convert_element_type_1: "bf16[768, 768][768, 1]cpu" = torch.ops.prims.convert_element_type.default(arg0_1, torch.bfloat16);  arg0_1 = None
+        convert_element_type_2: "bf16[1, 768][638976, 1]cpu" = torch.ops.prims.convert_element_type.default(slice_2, torch.bfloat16);  slice_2 = None
+        permute: "bf16[768, 768][1, 768]cpu" = torch.ops.aten.permute.default(convert_element_type_1, [1, 0]);  convert_element_type_1 = None
+        addmm: "bf16[1, 768][768, 1]cpu" = torch.ops.aten.addmm.default(convert_element_type, convert_element_type_2, permute);  convert_element_type = convert_element_type_2 = permute = None
+        tanh: "bf16[1, 768][768, 1]cpu" = torch.ops.aten.tanh.default(addmm);  addmm = None
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:2156 in torch_dynamo_resume_in_forward_at_2133, code: sequence_output = sequence_output[:, :-padding_len]
+        slice_3: "f32[1, 832, 768][638976, 768, 1]cpu" = torch.ops.aten.slice.Tensor(arg2_1, 0, 0, 9223372036854775807);  arg2_1 = None
+        slice_4: "f32[1, 819, 768][638976, 768, 1]cpu" = torch.ops.aten.slice.Tensor(slice_3, 1, 0, -13);  slice_3 = None
+        return (slice_4, tanh)
+        

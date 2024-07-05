@@ -1,0 +1,13 @@
+class GraphModule(torch.nn.Module):
+    def forward(self):
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:2039 in forward, code: attention_mask = torch.ones(((batch_size, seq_length + past_key_values_length)), device=device)
+        attention_mask: "f32[1, 819][819, 1]cpu" = torch.ones((1, 819), device = device(type='cpu'))
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:2042 in forward, code: buffered_token_type_ids = self.embeddings.token_type_ids[:, :seq_length]
+        l__self___embeddings_token_type_ids: "i64[1, 4096][4096, 1]cpu" = self.L__self___embeddings_token_type_ids
+        buffered_token_type_ids: "i64[1, 819][4096, 1]cpu" = l__self___embeddings_token_type_ids[(slice(None, None, None), slice(None, 819, None))];  l__self___embeddings_token_type_ids = None
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:2043 in forward, code: buffered_token_type_ids_expanded = buffered_token_type_ids.expand(batch_size, seq_length)
+        buffered_token_type_ids_expanded: "i64[1, 819][4096, 1]cpu" = buffered_token_type_ids.expand(1, 819);  buffered_token_type_ids = None
+        return (attention_mask, buffered_token_type_ids_expanded)
+        

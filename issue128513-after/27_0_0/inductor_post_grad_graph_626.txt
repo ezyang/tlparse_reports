@@ -1,0 +1,17 @@
+class <lambda>(torch.nn.Module):
+    def forward(self, arg2_1: "f32[1, 832, 768][638976, 768, 1]cpu"):
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:2151 in torch_dynamo_resume_in_forward_at_2133, code: pooler_output = self.activation(self.pooler(sequence_output[:, 0, :])) if (self.pooler is not None) else None
+        _frozen_param2: "bf16[768][1]cpu" = self._frozen_param2
+        
+        # No stacktrace found for following nodes
+        _frozen_param4: "bf16[768, 768][1, 0]cpu" = self._frozen_param4
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:2156 in torch_dynamo_resume_in_forward_at_2133, code: sequence_output = sequence_output[:, :-padding_len]
+        slice_4: "f32[1, 819, 768][638976, 768, 1]cpu" = torch.ops.aten.slice.Tensor(arg2_1, 1, 0, -13)
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:2151 in torch_dynamo_resume_in_forward_at_2133, code: pooler_output = self.activation(self.pooler(sequence_output[:, 0, :])) if (self.pooler is not None) else None
+        select: "f32[1, 768][638976, 1]cpu" = torch.ops.aten.select.int(arg2_1, 1, 0);  arg2_1 = None
+        convert_element_type_2: "bf16[1, 768][638976, 1]cpu" = torch.ops.prims.convert_element_type.default(select, torch.bfloat16);  select = None
+        fn: "bf16[1, 768][768, 1]cpu" = torch__inductor_fx_passes_mkldnn_fusion_fn(convert_element_type_2, _frozen_param4, _frozen_param2, 'none', [], '');  convert_element_type_2 = _frozen_param4 = _frozen_param2 = None
+        return (slice_4, fn)
+        

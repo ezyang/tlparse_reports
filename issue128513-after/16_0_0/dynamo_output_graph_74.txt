@@ -1,0 +1,9 @@
+class GraphModule(torch.nn.Module):
+    def forward(self, L_stack0_0_: "f32[1, 832, 12, 64][638976, 64, 53248, 1]cpu"):
+        l_stack0_0_ = L_stack0_0_
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:495 in torch_dynamo_resume_in_forward_at_472, code: context_layer = context_layer.contiguous().view(batch_size, from_seq_length, -1)
+        contiguous: "f32[1, 832, 12, 64][638976, 768, 64, 1]cpu" = l_stack0_0_.contiguous();  l_stack0_0_ = None
+        context_layer: "f32[1, 832, 768][638976, 768, 1]cpu" = contiguous.view(1, 832, -1);  contiguous = None
+        return (context_layer,)
+        

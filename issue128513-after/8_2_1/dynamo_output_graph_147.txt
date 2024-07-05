@@ -1,0 +1,16 @@
+class GraphModule(torch.nn.Module):
+    def forward(self, L_band_mask_: "f32[1, 1, 9, 64, 192][110592, 110592, 12288, 192, 1]cpu", L_from_mask_: "f32[1, 1, 832, 1][832, 832, 1, 1]cpu", L_to_mask_: "f32[1, 1, 1, 832][832, 832, 832, 1]cpu"):
+        l_band_mask_ = L_band_mask_
+        l_from_mask_ = L_from_mask_
+        l_to_mask_ = L_to_mask_
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:1383 in forward, code: band_mask = band_mask.to(hidden_states.dtype)
+        band_mask: "f32[1, 1, 9, 64, 192][110592, 110592, 12288, 192, 1]cpu" = l_band_mask_.to(torch.float32);  l_band_mask_ = None
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:1385 in forward, code: from_mask = from_mask.to(hidden_states.dtype)
+        from_mask: "f32[1, 1, 832, 1][832, 832, 1, 1]cpu" = l_from_mask_.to(torch.float32);  l_from_mask_ = None
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:1387 in forward, code: to_mask = to_mask.to(hidden_states.dtype)
+        to_mask: "f32[1, 1, 1, 832][832, 832, 832, 1]cpu" = l_to_mask_.to(torch.float32);  l_to_mask_ = None
+        return (band_mask, from_mask, to_mask)
+        

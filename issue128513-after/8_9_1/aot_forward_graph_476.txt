@@ -1,0 +1,4 @@
+class <lambda>(torch.nn.Module):
+    def forward(self, arg0_1: "f32[1, 1, 9, 64, 192][110592, 110592, 12288, 192, 1]cpu", arg1_1: "f32[1, 1, 832, 1][832, 832, 1, 1]cpu", arg2_1: "f32[1, 1, 1, 832][832, 832, 832, 1]cpu"):
+        return (arg0_1, arg1_1, arg2_1)
+        

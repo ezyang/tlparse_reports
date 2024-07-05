@@ -1,0 +1,41 @@
+
+TREE_GUARD_MANAGER:
++- RootGuardManager
+| +- DEFAULT_DEVICE: utils_device.CURRENT_DEVICE == None                           # _dynamo/output_graph.py:460 in init_ambient_guards
+| +- GLOBAL_STATE: ___check_global_state()
+| +- GuardManager: source=L['self'], accessed_by=DictGetItemGuardAccessor(self)
+| | +- ID_MATCH: ___check_obj_id(L['self'], 139839714901824)                 
+| | +- GuardManager: source=L['self'].__dict__, accessed_by=GetGenericDictGuardAccessor
+| | | +- GuardManager: source=L['self'].training, accessed_by=DictGetItemGuardAccessor(training)
+| | | | +- ID_MATCH: ___check_obj_id(L['self'].training, 7685824)                
+| | | +- GuardManager: source=L['self']._modules, accessed_by=DictGetItemGuardAccessor(_modules)
+| | | | +- GuardManager: source=L['self'].bert, accessed_by=DictGetItemGuardAccessor(bert)
+| | | | | +- ID_MATCH: ___check_obj_id(L['self'].bert, 139839714901584)            
+| | | | | +- GuardManager: source=L['self'].bert.__dict__, accessed_by=GetGenericDictGuardAccessor
+| | | | | | +- GuardManager: source=L['self'].bert.training, accessed_by=DictGetItemGuardAccessor(training)
+| | | | | | | +- ID_MATCH: ___check_obj_id(L['self'].bert.training, 7685824)           
+| | | +- GuardManager: source=L['self'].config, accessed_by=DictGetItemGuardAccessor(config)
+| | | | +- TYPE_MATCH: ___check_type_id(L['self'].config, 139839810624528)         
+| +- GuardManager: source=L['head_mask'], accessed_by=DictGetItemGuardAccessor(head_mask)
+| | +- ID_MATCH: ___check_obj_id(L['head_mask'], 7636800)                    
+| +- GuardManager: source=L['input_ids'], accessed_by=DictGetItemGuardAccessor(input_ids)
+| | +- TENSOR_MATCH: check_tensor(L['input_ids'], Tensor, DispatchKeySet(CPU, BackendSelect, ADInplaceOrView, AutogradCPU, AutocastCPU), torch.int64, device=None, requires_grad=False, size=[1, 819], stride=[819, 1])
+| | +- NO_HASATTR: hasattr(L['input_ids'], '_dynamo_dynamic_indices') == False 
+| +- GuardManager: source=L['return_dict'], accessed_by=DictGetItemGuardAccessor(return_dict)
+| | +- ID_MATCH: ___check_obj_id(L['return_dict'], 7636800)                  
+| +- GuardManager: source=L['position_ids'], accessed_by=DictGetItemGuardAccessor(position_ids)
+| | +- ID_MATCH: ___check_obj_id(L['position_ids'], 7636800)                 
+| +- GuardManager: source=L['inputs_embeds'], accessed_by=DictGetItemGuardAccessor(inputs_embeds)
+| | +- ID_MATCH: ___check_obj_id(L['inputs_embeds'], 7636800)                
+| +- GuardManager: source=L['attention_mask'], accessed_by=DictGetItemGuardAccessor(attention_mask)
+| | +- ID_MATCH: ___check_obj_id(L['attention_mask'], 7636800)               
+| +- GuardManager: source=L['token_type_ids'], accessed_by=DictGetItemGuardAccessor(token_type_ids)
+| | +- ID_MATCH: ___check_obj_id(L['token_type_ids'], 7636800)               
+| +- GuardManager: source=L['output_attentions'], accessed_by=DictGetItemGuardAccessor(output_attentions)
+| | +- ID_MATCH: ___check_obj_id(L['output_attentions'], 7636800)            
+| +- GuardManager: source=L['output_hidden_states'], accessed_by=DictGetItemGuardAccessor(output_hidden_states)
+| | +- ID_MATCH: ___check_obj_id(L['output_hidden_states'], 7636800)         
+| +- GuardManager: source=L['encoder_hidden_states'], accessed_by=DictGetItemGuardAccessor(encoder_hidden_states)
+| | +- ID_MATCH: ___check_obj_id(L['encoder_hidden_states'], 7636800)        
+| +- GuardManager: source=L['encoder_attention_mask'], accessed_by=DictGetItemGuardAccessor(encoder_attention_mask)
+| | +- ID_MATCH: ___check_obj_id(L['encoder_attention_mask'], 7636800)       

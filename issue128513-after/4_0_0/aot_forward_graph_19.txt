@@ -1,0 +1,12 @@
+class <lambda>(torch.nn.Module):
+    def forward(self, arg0_1: "i64[1, 819][819, 1]cpu", arg1_1: "f32[1, 819][819, 1]cpu", arg2_1: "i64[1, 819][4096, 1]cpu"):
+        # File: /localdisk/leslie/torch_inductor_community/pytorch/torch/nn/functional.py:4552 in pad, code: return torch._C._nn.pad(input, pad, mode, value)
+        constant_pad_nd: "i64[1, 832][832, 1]cpu" = torch.ops.aten.constant_pad_nd.default(arg0_1, [0, 13], 0.0);  arg0_1 = None
+        
+        # File: /localdisk/leslie/torch_inductor_community/pytorch/torch/nn/functional.py:4552 in pad, code: return torch._C._nn.pad(input, pad, mode, value)
+        constant_pad_nd_1: "f32[1, 832][832, 1]cpu" = torch.ops.aten.constant_pad_nd.default(arg1_1, [0, 13], 0.0);  arg1_1 = None
+        
+        # File: /localdisk/leslie/torch_inductor_community/pytorch/torch/nn/functional.py:4552 in pad, code: return torch._C._nn.pad(input, pad, mode, value)
+        constant_pad_nd_2: "i64[1, 832][832, 1]cpu" = torch.ops.aten.constant_pad_nd.default(arg2_1, [0, 13], 0.0);  arg2_1 = None
+        return (constant_pad_nd, constant_pad_nd_1, constant_pad_nd_2)
+        

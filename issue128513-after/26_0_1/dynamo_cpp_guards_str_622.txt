@@ -1,0 +1,29 @@
+
+TREE_GUARD_MANAGER:
++- RootGuardManager
+| +- DEFAULT_DEVICE: utils_device.CURRENT_DEVICE == None                           # _dynamo/output_graph.py:460 in init_ambient_guards
+| +- GLOBAL_STATE: ___check_global_state()
+| +- GuardManager: source=L['key'], accessed_by=DictGetItemGuardAccessor(key)
+| | +- EQUALS_MATCH: L['key'] == 'last_hidden_state'                             
+| +- GuardManager: source=L['self'], accessed_by=DictGetItemGuardAccessor(self)
+| | +- TYPE_MATCH: ___check_type_id(L['self'], 139839737986064)                
+| | +- GuardManager: source=L['self'].attentions, accessed_by=GetAttrGuardAccessor(attentions)
+| | | +- ID_MATCH: ___check_obj_id(L['self'].attentions, 7636800)              
+| | +- GuardManager: source=L['self'].hidden_states, accessed_by=GetAttrGuardAccessor(hidden_states)
+| | | +- ID_MATCH: ___check_obj_id(L['self'].hidden_states, 7636800)           
+| | +- GuardManager: source=L['self'].past_key_values, accessed_by=GetAttrGuardAccessor(past_key_values)
+| | | +- ID_MATCH: ___check_obj_id(L['self'].past_key_values, 7636800)         
+| | +- GuardManager: source=L['self'].cross_attentions, accessed_by=GetAttrGuardAccessor(cross_attentions)
+| | | +- ID_MATCH: ___check_obj_id(L['self'].cross_attentions, 7636800)        
+| | +- GuardManager: source=L['self'].last_hidden_state, accessed_by=GetAttrGuardAccessor(last_hidden_state)
+| | | +- TENSOR_MATCH: check_tensor(L['self'].last_hidden_state, Tensor, DispatchKeySet(CPU, BackendSelect, ADInplaceOrView, AutogradCPU, AutocastCPU), torch.float32, device=None, requires_grad=False, size=[1, 832, 768], stride=[638976, 768, 1])
+| | | +- NO_HASATTR: hasattr(L['self'].last_hidden_state, '_dynamo_dynamic_indices') == False
+| | | +- TENSOR_ALIASING: L['self'].last_hidden_state is L['value']                   
+| +- GuardManager: source=L['__class__'], accessed_by=DictGetItemGuardAccessor(__class__)
+| | +- ID_MATCH: ___check_obj_id(L['__class__'], 139839808343056)            
+| +- GuardManager: source=G, accessed_by=GlobalsGuardAccessor
+| | +- GuardManager: source=G['__builtins_dict___317'], accessed_by=DictGetItemGuardAccessor(__builtins_dict___317)
+| | | +- GuardManager: source=G['__builtins_dict___317']['super'], accessed_by=DictGetItemGuardAccessor(super)
+| | | | +- ID_MATCH: ___check_obj_id(G['__builtins_dict___317']['super'], 7618272)
+| +- GuardManager: source=L['value'], accessed_by=DictGetItemGuardAccessor(value)
+| | +- TENSOR_ALIASING: L['self'].last_hidden_state is L['value']                   

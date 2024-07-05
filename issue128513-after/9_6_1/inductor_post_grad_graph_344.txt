@@ -1,0 +1,49 @@
+class <lambda>(torch.nn.Module):
+    def forward(self, arg6_1: "f32[1, 832, 768][638976, 768, 1]cpu"):
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:468 in forward, code: query_layer = self.transpose_for_scores(self.query(hidden_states))
+        _frozen_param6: "bf16[768][1]cpu" = self._frozen_param6
+        
+        # No stacktrace found for following nodes
+        _frozen_param12: "bf16[768, 768][1, 0]cpu" = self._frozen_param12
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:469 in forward, code: key_layer = self.transpose_for_scores(self.key(hidden_states))
+        _frozen_param8: "bf16[768][1]cpu" = self._frozen_param8
+        
+        # No stacktrace found for following nodes
+        _frozen_param13: "bf16[768, 768][1, 0]cpu" = self._frozen_param13
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:470 in forward, code: value_layer = self.transpose_for_scores(self.value(hidden_states))
+        _frozen_param10: "bf16[768][1]cpu" = self._frozen_param10
+        
+        # No stacktrace found for following nodes
+        _frozen_param14: "bf16[768, 768][1, 0]cpu" = self._frozen_param14
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:468 in forward, code: query_layer = self.transpose_for_scores(self.query(hidden_states))
+        convert_element_type_2: "bf16[1, 832, 768][638976, 768, 1]cpu" = torch.ops.prims.convert_element_type.default(arg6_1, torch.bfloat16);  arg6_1 = None
+        _linear_pointwise_default_5: "bf16[1, 832, 768][638976, 768, 1]cpu" = torch.ops.mkldnn._linear_pointwise.default(convert_element_type_2, _frozen_param12, _frozen_param6, 'none', [], '');  _frozen_param12 = _frozen_param6 = None
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:443 in transpose_for_scores, code: x = x.view(*new_x_shape)
+        view_2: "bf16[1, 832, 12, 64][638976, 768, 64, 1]cpu" = torch.ops.aten.reshape.default(_linear_pointwise_default_5, [1, 832, 12, 64]);  _linear_pointwise_default_5 = None
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:444 in transpose_for_scores, code: return x.permute(0, 2, 1, 3)
+        permute_1: "bf16[1, 12, 832, 64][638976, 64, 768, 1]cpu" = torch.ops.aten.permute.default(view_2, [0, 2, 1, 3]);  view_2 = None
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:469 in forward, code: key_layer = self.transpose_for_scores(self.key(hidden_states))
+        _linear_pointwise_default_4: "bf16[1, 832, 768][638976, 768, 1]cpu" = torch.ops.mkldnn._linear_pointwise.default(convert_element_type_2, _frozen_param13, _frozen_param8, 'none', [], '');  _frozen_param13 = _frozen_param8 = None
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:443 in transpose_for_scores, code: x = x.view(*new_x_shape)
+        view_5: "bf16[1, 832, 12, 64][638976, 768, 64, 1]cpu" = torch.ops.aten.reshape.default(_linear_pointwise_default_4, [1, 832, 12, 64]);  _linear_pointwise_default_4 = None
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:444 in transpose_for_scores, code: return x.permute(0, 2, 1, 3)
+        permute_3: "bf16[1, 12, 832, 64][638976, 64, 768, 1]cpu" = torch.ops.aten.permute.default(view_5, [0, 2, 1, 3]);  view_5 = None
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:470 in forward, code: value_layer = self.transpose_for_scores(self.value(hidden_states))
+        _linear_pointwise_default_3: "bf16[1, 832, 768][638976, 768, 1]cpu" = torch.ops.mkldnn._linear_pointwise.default(convert_element_type_2, _frozen_param14, _frozen_param10, 'none', [], '');  convert_element_type_2 = _frozen_param14 = _frozen_param10 = None
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:443 in transpose_for_scores, code: x = x.view(*new_x_shape)
+        view_8: "bf16[1, 832, 12, 64][638976, 768, 64, 1]cpu" = torch.ops.aten.reshape.default(_linear_pointwise_default_3, [1, 832, 12, 64]);  _linear_pointwise_default_3 = None
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:444 in transpose_for_scores, code: return x.permute(0, 2, 1, 3)
+        permute_5: "bf16[1, 12, 832, 64][638976, 64, 768, 1]cpu" = torch.ops.aten.permute.default(view_8, [0, 2, 1, 3]);  view_8 = None
+        return (permute_1, permute_3, permute_5)
+        
