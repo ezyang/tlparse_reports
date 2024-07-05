@@ -1,0 +1,36 @@
+
+TREE_GUARD_MANAGER:
++- RootGuardManager
+| +- DEFAULT_DEVICE: utils_device.CURRENT_DEVICE == None                           # _dynamo/output_graph.py:460 in init_ambient_guards
+| +- GLOBAL_STATE: ___check_global_state()
+| +- GuardManager: source=L['num_heads'], accessed_by=DictGetItemGuardAccessor(num_heads)
+| | +- EQUALS_MATCH: L['num_heads'] == 12                                        
+| +- GuardManager: source=L['to_block_size'], accessed_by=DictGetItemGuardAccessor(to_block_size)
+| | +- EQUALS_MATCH: L['to_block_size'] == 64                                    
+| +- GuardManager: source=L['to_seq_length'], accessed_by=DictGetItemGuardAccessor(to_seq_length)
+| | +- EQUALS_MATCH: L['to_seq_length'] == 832                                   
+| +- GuardManager: source=L['from_block_size'], accessed_by=DictGetItemGuardAccessor(from_block_size)
+| | +- EQUALS_MATCH: L['from_block_size'] == 64                                  
+| +- GuardManager: source=L['from_seq_length'], accessed_by=DictGetItemGuardAccessor(from_seq_length)
+| | +- EQUALS_MATCH: L['from_seq_length'] == 832                                 
+| +- GuardManager: source=L['plan_from_length'], accessed_by=DictGetItemGuardAccessor(plan_from_length)
+| | +- TYPE_MATCH: ___check_type_id(L['plan_from_length'], 7650400)            
+| | +- LENGTH_CHECK: len(L['plan_from_length']) == 2                             
+| | +- GuardManager: source=L['plan_from_length'][0], accessed_by=ListGetItemGuardAccessor(0)
+| | | +- EQUALS_MATCH: L['plan_from_length'][0] == 704                             
+| | +- GuardManager: source=L['plan_from_length'][1], accessed_by=ListGetItemGuardAccessor(1)
+| | | +- EQUALS_MATCH: L['plan_from_length'][1] == 832                             
+| +- GuardManager: source=G, accessed_by=GlobalsGuardAccessor
+| | +- GuardManager: source=G['np'], accessed_by=DictGetItemGuardAccessor(np)
+| | | +- ID_MATCH: ___check_obj_id(G['np'], 140633408227744)                   
+| | | +- GuardManager: source=G['np'].array, accessed_by=GetAttrGuardAccessor(array)
+| | | | +- ID_MATCH: ___check_obj_id(G['np'].array, 140633408310304)             
+| | +- GuardManager: source=G['__builtins_dict___40'], accessed_by=DictGetItemGuardAccessor(__builtins_dict___40)
+| | | +- GuardManager: source=G['__builtins_dict___40']['list'], accessed_by=DictGetItemGuardAccessor(list)
+| | | | +- ID_MATCH: ___check_obj_id(G['__builtins_dict___40']['list'], 7650400) 
+| | | +- GuardManager: source=G['__builtins_dict___40']['range'], accessed_by=DictGetItemGuardAccessor(range)
+| | | | +- ID_MATCH: ___check_obj_id(G['__builtins_dict___40']['range'], 7632448)
+| | | +- GuardManager: source=G['__builtins_dict___40']['enumerate'], accessed_by=DictGetItemGuardAccessor(enumerate)
+| | | | +- ID_MATCH: ___check_obj_id(G['__builtins_dict___40']['enumerate'], 7513024)
+| | +- GuardManager: source=G['__import_torch_dot__dynamo_dot_polyfill'], accessed_by=DictGetItemGuardAccessor(__import_torch_dot__dynamo_dot_polyfill)
+| | | +- ID_MATCH: ___check_obj_id(G['__import_torch_dot__dynamo_dot_polyfill'], 140627929206192)

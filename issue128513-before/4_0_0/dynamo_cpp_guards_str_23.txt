@@ -1,0 +1,54 @@
+
+TREE_GUARD_MANAGER:
++- RootGuardManager
+| +- DEFAULT_DEVICE: utils_device.CURRENT_DEVICE == None                           # _dynamo/output_graph.py:460 in init_ambient_guards
+| +- GLOBAL_STATE: ___check_global_state()
+| +- GuardManager: source=L['input_ids'], accessed_by=DictGetItemGuardAccessor(input_ids)
+| | +- TENSOR_MATCH: check_tensor(L['input_ids'], Tensor, DispatchKeySet(CPU, BackendSelect, ADInplaceOrView, AutogradCPU, AutocastCPU), torch.int64, device=None, requires_grad=False, size=[1, 819], stride=[819, 1])
+| | +- NO_HASATTR: hasattr(L['input_ids'], '_dynamo_dynamic_indices') == False 
+| | +- NO_TENSOR_ALIASING: check_no_aliasing(L['input_ids'], L['attention_mask'], L['token_type_ids'])
+| +- GuardManager: source=L['padding_len'], accessed_by=DictGetItemGuardAccessor(padding_len)
+| | +- EQUALS_MATCH: L['padding_len'] == 13                                      
+| +- GuardManager: source=L['pad_token_id'], accessed_by=DictGetItemGuardAccessor(pad_token_id)
+| | +- EQUALS_MATCH: L['pad_token_id'] == 0                                      
+| +- GuardManager: source=L['position_ids'], accessed_by=DictGetItemGuardAccessor(position_ids)
+| | +- ID_MATCH: ___check_obj_id(L['position_ids'], 7636800)                 
+| +- GuardManager: source=L['inputs_embeds'], accessed_by=DictGetItemGuardAccessor(inputs_embeds)
+| | +- ID_MATCH: ___check_obj_id(L['inputs_embeds'], 7636800)                
+| +- GuardManager: source=L['attention_mask'], accessed_by=DictGetItemGuardAccessor(attention_mask)
+| | +- TENSOR_MATCH: check_tensor(L['attention_mask'], Tensor, DispatchKeySet(CPU, BackendSelect, ADInplaceOrView, AutogradCPU, AutocastCPU), torch.float32, device=None, requires_grad=False, size=[1, 819], stride=[819, 1])
+| | +- NO_HASATTR: hasattr(L['attention_mask'], '_dynamo_dynamic_indices') == False
+| | +- NO_TENSOR_ALIASING: check_no_aliasing(L['input_ids'], L['attention_mask'], L['token_type_ids'])
+| +- GuardManager: source=L['token_type_ids'], accessed_by=DictGetItemGuardAccessor(token_type_ids)
+| | +- TENSOR_MATCH: check_tensor(L['token_type_ids'], Tensor, DispatchKeySet(CPU, BackendSelect, ADInplaceOrView, AutogradCPU, AutocastCPU), torch.int64, device=None, requires_grad=False, size=[1, 819], stride=[4096, 1])
+| | +- NO_HASATTR: hasattr(L['token_type_ids'], '_dynamo_dynamic_indices') == False
+| | +- NO_TENSOR_ALIASING: check_no_aliasing(L['input_ids'], L['attention_mask'], L['token_type_ids'])
+| +- GuardManager: source=G, accessed_by=GlobalsGuardAccessor
+| | +- GuardManager: source=G['nn'], accessed_by=DictGetItemGuardAccessor(nn)
+| | | +- ID_MATCH: ___check_obj_id(G['nn'], 140630618666576)                   
+| | | +- GuardManager: source=G['nn'].functional, accessed_by=GetAttrGuardAccessor(functional)
+| | | | +- ID_MATCH: ___check_obj_id(G['nn'].functional, 140630617650448)        
+| | | | +- GuardManager: source=G['nn'].functional.pad, accessed_by=GetAttrGuardAccessor(pad)
+| | | | | +- GuardManager: source=G['nn'].functional.pad.__code__, accessed_by=GetAttrGuardAccessor(__code__)
+| | | | | | +- ID_MATCH: ___check_obj_id(G['nn'].functional.pad.__code__, 140630617781712)
+| | | | | +- GuardManager: source=G['nn'].functional.pad, accessed_by=FuncDefaultsGuardAccessor
+| | | | | | +- GuardManager: source=G['nn'].functional.pad.__defaults__[0], accessed_by=GetItemGuardAccessor(0)
+| | | | | | | +- EQUALS_MATCH: G['nn'].functional.pad.__defaults__[0] == 'constant'        
+| | +- GuardManager: source=G['__import_torch_dot_nn_dot_functional'], accessed_by=DictGetItemGuardAccessor(__import_torch_dot_nn_dot_functional)
+| | | +- ID_MATCH: ___check_obj_id(G['__import_torch_dot_nn_dot_functional'], 140630617650448)
+| | | +- GuardManager: source=G['__import_torch_dot_nn_dot_functional'].torch, accessed_by=GetAttrGuardAccessor(torch)
+| | | | +- ID_MATCH: ___check_obj_id(G['__import_torch_dot_nn_dot_functional'].torch, 140633413153264)
+| | | | +- GuardManager: source=G['__import_torch_dot_nn_dot_functional'].torch._C, accessed_by=GetAttrGuardAccessor(_C)
+| | | | | +- ID_MATCH: ___check_obj_id(G['__import_torch_dot_nn_dot_functional'].torch._C, 140633407914288)
+| | | | | +- GuardManager: source=G['__import_torch_dot_nn_dot_functional'].torch._C._nn, accessed_by=GetAttrGuardAccessor(_nn)
+| | | | | | +- ID_MATCH: ___check_obj_id(G['__import_torch_dot_nn_dot_functional'].torch._C._nn, 140630621500128)
+| | | | | | +- GuardManager: source=G['__import_torch_dot_nn_dot_functional'].torch._C._nn.pad, accessed_by=GetAttrGuardAccessor(pad)
+| | | | | | | +- ID_MATCH: ___check_obj_id(G['__import_torch_dot_nn_dot_functional'].torch._C._nn.pad, 140630621540000)
+| | | | +- GuardManager: source=G['__import_torch_dot_nn_dot_functional'].torch.jit, accessed_by=GetAttrGuardAccessor(jit)
+| | | | | +- ID_MATCH: ___check_obj_id(G['__import_torch_dot_nn_dot_functional'].torch.jit, 140630591792576)
+| | | | | +- GuardManager: source=G['__import_torch_dot_nn_dot_functional'].torch.jit.is_scripting, accessed_by=GetAttrGuardAccessor(is_scripting)
+| | | | | | +- ID_MATCH: ___check_obj_id(G['__import_torch_dot_nn_dot_functional'].torch.jit.is_scripting, 140630599007056)
+| | | | +- GuardManager: source=G['__import_torch_dot_nn_dot_functional'].torch.are_deterministic_algorithms_enabled, accessed_by=GetAttrGuardAccessor(are_deterministic_algorithms_enabled)
+| | | | | +- ID_MATCH: ___check_obj_id(G['__import_torch_dot_nn_dot_functional'].torch.are_deterministic_algorithms_enabled, 140630628446656)
+| | | +- GuardManager: source=G['__import_torch_dot_nn_dot_functional'].has_torch_function_unary, accessed_by=GetAttrGuardAccessor(has_torch_function_unary)
+| | | | +- ID_MATCH: ___check_obj_id(G['__import_torch_dot_nn_dot_functional'].has_torch_function_unary, 140633407926208)

@@ -1,0 +1,66 @@
+class <lambda>(torch.nn.Module):
+    def forward(self, arg6_1: "i64[1, 832][832, 1]cpu", arg7_1: "f32[1, 832][832, 1]cpu", arg8_1: "i64[1, 832][832, 1]cpu"):
+        # No stacktrace found for following nodes
+        _frozen_param0: "f32[50358, 768][768, 1]cpu" = self._frozen_param0
+        _frozen_param1: "f32[2, 768][768, 1]cpu" = self._frozen_param1
+        _frozen_param3: "f32[768][1]cpu" = self._frozen_param3
+        _frozen_param4: "f32[768][1]cpu" = self._frozen_param4
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:305 in forward, code: position_embeddings = self.position_embeddings(position_ids)
+        _frozen_param6: "f32[1, 832, 768][638976, 768, 1]cpu" = self._frozen_param6
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:296 in forward, code: inputs_embeds = self.word_embeddings(input_ids)
+        embedding: "f32[1, 832, 768][638976, 768, 1]cpu" = torch.ops.aten.embedding.default(_frozen_param0, arg6_1, 0);  _frozen_param0 = arg6_1 = None
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:301 in forward, code: token_type_embeddings = self.token_type_embeddings(token_type_ids)
+        embedding_1: "f32[1, 832, 768][638976, 768, 1]cpu" = torch.ops.aten.embedding.default(_frozen_param1, arg8_1);  _frozen_param1 = arg8_1 = None
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:303 in forward, code: embeddings = inputs_embeds + token_type_embeddings
+        add: "f32[1, 832, 768][638976, 768, 1]cpu" = torch.ops.aten.add.Tensor(embedding, embedding_1);  embedding = embedding_1 = None
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:306 in forward, code: embeddings += position_embeddings
+        add_1: "f32[1, 832, 768][638976, 768, 1]cpu" = torch.ops.aten.add.Tensor(add, _frozen_param6);  add = _frozen_param6 = None
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:309 in forward, code: embeddings = self.LayerNorm(embeddings)
+        var_mean = torch.ops.aten.var_mean.correction(add_1, [2], correction = 0, keepdim = True)
+        getitem: "f32[1, 832, 1][832, 1, 1]cpu" = var_mean[0]
+        getitem_1: "f32[1, 832, 1][832, 1, 1]cpu" = var_mean[1];  var_mean = None
+        sub: "f32[1, 832, 768][638976, 768, 1]cpu" = torch.ops.aten.sub.Tensor(add_1, getitem_1);  add_1 = getitem_1 = None
+        add_2: "f32[1, 832, 1][832, 1, 1]cpu" = torch.ops.aten.add.Tensor(getitem, 1e-12);  getitem = None
+        rsqrt: "f32[1, 832, 1][832, 1, 1]cpu" = torch.ops.aten.rsqrt.default(add_2);  add_2 = None
+        mul_1: "f32[1, 832, 768][638976, 768, 1]cpu" = torch.ops.aten.mul.Tensor(sub, rsqrt);  sub = rsqrt = None
+        mul_2: "f32[1, 832, 768][638976, 768, 1]cpu" = torch.ops.aten.mul.Tensor(mul_1, _frozen_param3);  mul_1 = _frozen_param3 = None
+        add_3: "f32[1, 832, 768][638976, 768, 1]cpu" = torch.ops.aten.add.Tensor(mul_2, _frozen_param4);  mul_2 = _frozen_param4 = None
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:2200 in create_masks_for_block_sparse_attn, code: blocked_encoder_mask = attention_mask.view(batch_size, seq_length // block_size, block_size)
+        view: "f32[1, 13, 64][832, 64, 1]cpu" = torch.ops.aten.reshape.default(arg7_1, [1, 13, 64])
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:2194 in create_band_mask_from_inputs, code: [to_blocked_mask[:, 1:-3], to_blocked_mask[:, 2:-2], to_blocked_mask[:, 3:-1]], dim=2
+        slice_4: "f32[1, 9, 64][832, 64, 1]cpu" = torch.ops.aten.slice.Tensor(view, 1, 2, -2)
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:2196 in create_band_mask_from_inputs, code: band_mask = torch.einsum("blq,blk->blqk", from_blocked_mask[:, 2:-2], exp_blocked_to_pad)
+        unsqueeze: "f32[1, 9, 64, 1][832, 64, 1, 1]cpu" = torch.ops.aten.unsqueeze.default(slice_4, 3)
+        permute: "f32[1, 9, 64, 1][832, 64, 1, 1]cpu" = torch.ops.aten.permute.default(unsqueeze, [0, 1, 2, 3]);  unsqueeze = None
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:2194 in create_band_mask_from_inputs, code: [to_blocked_mask[:, 1:-3], to_blocked_mask[:, 2:-2], to_blocked_mask[:, 3:-1]], dim=2
+        slice_2: "f32[1, 9, 64][832, 64, 1]cpu" = torch.ops.aten.slice.Tensor(view, 1, 1, -3)
+        slice_6: "f32[1, 9, 64][832, 64, 1]cpu" = torch.ops.aten.slice.Tensor(view, 1, 3, -1)
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:2193 in create_band_mask_from_inputs, code: exp_blocked_to_pad = torch.cat(
+        cat: "f32[1, 9, 192][1728, 192, 1]cpu" = torch.ops.aten.cat.default([slice_2, slice_4, slice_6], 2);  slice_2 = slice_4 = slice_6 = None
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:2196 in create_band_mask_from_inputs, code: band_mask = torch.einsum("blq,blk->blqk", from_blocked_mask[:, 2:-2], exp_blocked_to_pad)
+        unsqueeze_1: "f32[1, 9, 192, 1][1728, 192, 1, 1]cpu" = torch.ops.aten.unsqueeze.default(cat, 3);  cat = None
+        permute_1: "f32[1, 9, 1, 192][1728, 192, 1, 1]cpu" = torch.ops.aten.permute.default(unsqueeze_1, [0, 1, 3, 2]);  unsqueeze_1 = None
+        mul: "f32[1, 9, 64, 192][110592, 12288, 192, 1]cpu" = torch.ops.aten.mul.Tensor(permute, permute_1);  permute = permute_1 = None
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:2197 in create_band_mask_from_inputs, code: band_mask.unsqueeze_(1)
+        unsqueeze_2: "f32[1, 1, 9, 64, 192][110592, 110592, 12288, 192, 1]cpu" = torch.ops.aten.unsqueeze.default(mul, 1);  mul = None
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:2203 in create_masks_for_block_sparse_attn, code: from_mask = attention_mask.view(batch_size, 1, seq_length, 1)
+        view_1: "f32[1, 1, 832, 1][832, 832, 1, 1]cpu" = torch.ops.aten.reshape.default(arg7_1, [1, 1, 832, 1])
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:2204 in create_masks_for_block_sparse_attn, code: to_mask = attention_mask.view(batch_size, 1, 1, seq_length)
+        view_2: "f32[1, 1, 1, 832][832, 832, 832, 1]cpu" = torch.ops.aten.reshape.default(arg7_1, [1, 1, 1, 832]);  arg7_1 = None
+        return (add_3, unsqueeze_2, view_1, view_2, view)
+        

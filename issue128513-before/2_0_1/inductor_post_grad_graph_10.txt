@@ -1,0 +1,12 @@
+class <lambda>(torch.nn.Module):
+    def forward(self, arg0_1: "i64[1, 4096][4096, 1]cpu"):
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:2039 in forward, code: attention_mask = torch.ones(((batch_size, seq_length + past_key_values_length)), device=device)
+        full_default: "f32[1, 819][819, 1]cpu" = torch.ops.aten.full.default([1, 819], 1, dtype = torch.float32, layout = torch.strided, device = device(type='cpu'), pin_memory = False)
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:2042 in forward, code: buffered_token_type_ids = self.embeddings.token_type_ids[:, :seq_length]
+        slice_2: "i64[1, 819][4096, 1]cpu" = torch.ops.aten.slice.Tensor(arg0_1, 1, 0, 819);  arg0_1 = None
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:2043 in forward, code: buffered_token_type_ids_expanded = buffered_token_type_ids.expand(batch_size, seq_length)
+        expand: "i64[1, 819][4096, 1]cpu" = torch.ops.aten.expand.default(slice_2, [1, 819]);  slice_2 = None
+        return (full_default, expand)
+        

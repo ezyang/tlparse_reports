@@ -1,0 +1,9 @@
+class <lambda>(torch.nn.Module):
+    def forward(self):
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:1160 in _bigbird_block_rand_mask_with_head, code: plan_block_length = np.array(plan_from_length) // from_block_size
+        _tensor_constant0 = self._tensor_constant0
+        lift_fresh_copy: "i64[2][1]cpu" = torch.ops.aten.lift_fresh_copy.default(_tensor_constant0);  _tensor_constant0 = None
+        clone: "i64[2][1]cpu" = torch.ops.aten.clone.default(lift_fresh_copy);  lift_fresh_copy = None
+        div: "i64[2][1]cpu" = torch.ops.aten.div.Tensor_mode(clone, 64, rounding_mode = 'floor');  clone = None
+        return (div,)
+        

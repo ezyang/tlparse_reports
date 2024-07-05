@@ -1,0 +1,24 @@
+class GraphModule(torch.nn.Module):
+    def forward(self, L_stack0_last_hidden_state: "f32[1, 819, 768][638976, 768, 1]cpu"):
+        l_stack0_last_hidden_state = L_stack0_last_hidden_state
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:1689 in forward, code: hidden_states = self.dense(hidden_states)
+        hidden_states: "bf16[1, 819, 768][628992, 768, 1]cpu" = self.L__self___cls_predictions_transform_dense(l_stack0_last_hidden_state);  l_stack0_last_hidden_state = None
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/activations.py:57 in forward, code: return 0.5 * input * (1.0 + torch.tanh(math.sqrt(2.0 / math.pi) * (input + 0.044715 * torch.pow(input, 3.0))))
+        mul: "bf16[1, 819, 768][628992, 768, 1]cpu" = 0.5 * hidden_states
+        pow_1: "bf16[1, 819, 768][628992, 768, 1]cpu" = torch.pow(hidden_states, 3.0)
+        mul_1: "bf16[1, 819, 768][628992, 768, 1]cpu" = 0.044715 * pow_1;  pow_1 = None
+        add: "bf16[1, 819, 768][628992, 768, 1]cpu" = hidden_states + mul_1;  hidden_states = mul_1 = None
+        mul_2: "bf16[1, 819, 768][628992, 768, 1]cpu" = 0.7978845608028654 * add;  add = None
+        tanh: "bf16[1, 819, 768][628992, 768, 1]cpu" = torch.tanh(mul_2);  mul_2 = None
+        add_1: "bf16[1, 819, 768][628992, 768, 1]cpu" = 1.0 + tanh;  tanh = None
+        hidden_states_1: "bf16[1, 819, 768][628992, 768, 1]cpu" = mul * add_1;  mul = add_1 = None
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:1691 in forward, code: hidden_states = self.LayerNorm(hidden_states)
+        hidden_states_2: "bf16[1, 819, 768][628992, 768, 1]cpu" = self.L__self___cls_predictions_transform_LayerNorm(hidden_states_1);  hidden_states_1 = None
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:1712 in forward, code: hidden_states = self.decoder(hidden_states)
+        hidden_states_3: "bf16[1, 819, 50358][41243202, 50358, 1]cpu" = self.L__self___cls_predictions_decoder(hidden_states_2);  hidden_states_2 = None
+        return (hidden_states_3,)
+        

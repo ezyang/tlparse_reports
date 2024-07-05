@@ -1,0 +1,18 @@
+
+TREE_GUARD_MANAGER:
++- RootGuardManager
+| +- DEFAULT_DEVICE: utils_device.CURRENT_DEVICE == None                           # _dynamo/output_graph.py:460 in init_ambient_guards
+| +- GLOBAL_STATE: ___check_global_state()
+| +- GuardManager: source=L['self'], accessed_by=DictGetItemGuardAccessor(self)
+| | +- ID_MATCH: ___check_obj_id(L['self'], 140627890018176)                 
+| | +- GuardManager: source=L['self'].__dict__, accessed_by=GetGenericDictGuardAccessor
+| | | +- GuardManager: source=L['self'].training, accessed_by=DictGetItemGuardAccessor(training)
+| | | | +- ID_MATCH: ___check_obj_id(L['self'].training, 7685824)                
+| | | +- GuardManager: source=L['self'].config, accessed_by=DictGetItemGuardAccessor(config)
+| | | | +- TYPE_MATCH: ___check_type_id(L['self'].config, 140627908258832)         
+| +- GuardManager: source=L['input_ids'], accessed_by=DictGetItemGuardAccessor(input_ids)
+| | +- TENSOR_MATCH: check_tensor(L['input_ids'], Tensor, DispatchKeySet(CPU, BackendSelect, ADInplaceOrView, AutogradCPU, AutocastCPU), torch.int64, device=None, requires_grad=False, size=[1, 819], stride=[819, 1])
+| | +- NO_HASATTR: hasattr(L['input_ids'], '_dynamo_dynamic_indices') == False 
+| +- GuardManager: source=G, accessed_by=GlobalsGuardAccessor
+| | +- GuardManager: source=G['logger'], accessed_by=DictGetItemGuardAccessor(logger)
+| | | +- ID_MATCH: ___check_obj_id(G['logger'], 140627838235024)               

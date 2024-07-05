@@ -1,0 +1,121 @@
+
+<html>
+<head>
+    <style>
+    
+.stack-trie { white-space: nowrap; font-family: monospace; }
+.stack-trie ul { padding-left: 1ch;  }
+.stack-trie li { margin-left: 1ch; list-style-type: none;  }
+.stack-trie .marker {
+  cursor: pointer;
+}
+.stack-trie .marker.collapsed::before {
+  content: &quot;+ &quot;;
+}
+.stack-trie .marker:not(.collapsed)::before {
+  content: &quot;- &quot;;
+}
+.stack-trie a { text-decoration: none; }
+.stack-trie a:hover { text-decoration: underline; }
+.status-missing { background-color: purple; color: white; }
+.status-error { background-color: red; color: white; }
+.status-empty { background-color: white; color: black; }
+.status-ok { background-color: green; color: white; }
+.status-break { background-color: lime; color: black; }
+
+    </style>
+    <title>Compilation Metrics</title>
+</head>
+<body>
+    <h1>Compilation Info for [14/2] </h1>
+    <h2>Output files:</h2>
+    <ul>
+        
+            <li><a href="dynamo_output_graph_165.txt">dynamo_output_graph_165.txt</a> (165)</li>
+        
+            <li><a href="aot_forward_graph_166.txt">aot_forward_graph_166.txt</a> (166)</li>
+        
+            <li><a href="inductor_post_grad_graph_167.txt">inductor_post_grad_graph_167.txt</a> (167)</li>
+        
+            <li><a href="inductor_output_code_c7krclox54eur6bikagx43mypeny7qg3zslqlxxiypqqgyyvz3kh_168.html">inductor_output_code_c7krclox54eur6bikagx43mypeny7qg3zslqlxxiypqqgyyvz3kh_168.html</a> (168)</li>
+        
+            <li><a href="dynamo_guards_169.html">dynamo_guards_169.html</a> (169)</li>
+        
+            <li><a href="dynamo_cpp_guards_str_170.txt">dynamo_cpp_guards_str_170.txt</a> (170)</li>
+        
+    </ul>
+    <h2>Stack</h2>
+    <div class='stack-trie'><ul><li>/localdisk/leslie/torch_inductor_community/pytorch/benchmarks/dynamo/torchbench.py:456 in &lt;module&gt;</li>
+<li>/localdisk/leslie/torch_inductor_community/pytorch/benchmarks/dynamo/torchbench.py:452 in torchbench_main</li>
+<li>/localdisk/leslie/torch_inductor_community/pytorch/benchmarks/dynamo/common.py:3661 in main</li>
+<li>/localdisk/leslie/torch_inductor_community/pytorch/benchmarks/dynamo/common.py:3593 in process_entry</li>
+<li>/localdisk/leslie/torch_inductor_community/pytorch/benchmarks/dynamo/common.py:4220 in run</li>
+<li>/localdisk/leslie/torch_inductor_community/pytorch/benchmarks/dynamo/common.py:2965 in run_one_model</li>
+<li>/localdisk/leslie/torch_inductor_community/pytorch/benchmarks/dynamo/common.py:2805 in run_performance_test</li>
+<li>/localdisk/leslie/torch_inductor_community/pytorch/benchmarks/dynamo/common.py:2742 in warmup</li>
+<li>/localdisk/leslie/torch_inductor_community/pytorch/torch/_dynamo/eval_frame.py:433 in _fn</li>
+<li>/localdisk/leslie/torch_inductor_community/pytorch/benchmarks/dynamo/torchbench.py:430 in forward_pass</li>
+<li>/localdisk/leslie/torch_inductor_community/pytorch/torch/nn/modules/module.py:1553 in _wrapped_call_impl</li>
+<li>/localdisk/leslie/torch_inductor_community/pytorch/torch/nn/modules/module.py:1562 in _call_impl</li>
+<li>/localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:2450 in forward</li>
+<li>/localdisk/leslie/torch_inductor_community/pytorch/torch/nn/modules/module.py:1553 in _wrapped_call_impl</li>
+<li>/localdisk/leslie/torch_inductor_community/pytorch/torch/nn/modules/module.py:1562 in _call_impl</li>
+<li>/localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:2077 in forward</li>
+<li>/localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:2133 in torch_dynamo_resume_in_forward_at_2077</li>
+<li>/localdisk/leslie/torch_inductor_community/pytorch/torch/nn/modules/module.py:1553 in _wrapped_call_impl</li>
+<li>/localdisk/leslie/torch_inductor_community/pytorch/torch/nn/modules/module.py:1562 in _call_impl</li>
+<li>/localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:1631 in forward</li>
+<li>/localdisk/leslie/torch_inductor_community/pytorch/torch/nn/modules/module.py:1553 in _wrapped_call_impl</li>
+<li>/localdisk/leslie/torch_inductor_community/pytorch/torch/nn/modules/module.py:1562 in _call_impl</li>
+<li>/localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:1488 in forward</li>
+<li>/localdisk/leslie/torch_inductor_community/pytorch/torch/nn/modules/module.py:1553 in _wrapped_call_impl</li>
+<li>/localdisk/leslie/torch_inductor_community/pytorch/torch/nn/modules/module.py:1562 in _call_impl</li>
+<li>/localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:1401 in forward</li>
+<li>/localdisk/leslie/torch_inductor_community/pytorch/torch/nn/modules/module.py:1553 in _wrapped_call_impl</li>
+<li>/localdisk/leslie/torch_inductor_community/pytorch/torch/nn/modules/module.py:1562 in _call_impl</li>
+<li>/localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:472 in forward</li>
+<li>/localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:569 in bigbird_block_sparse_attention</li>
+<li>/localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:583 in torch_dynamo_resume_in_bigbird_block_sparse_attention_at_569</li>
+<li>/localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:1165 in _bigbird_block_rand_mask_with_head</li>
+<li>/localdisk/leslie/torch_inductor_community/pytorch/torch/_dynamo/convert_frame.py:1116 in __call__</li>
+</ul></div>
+    <h2>Compile Time(seconds)</h2>
+    <p>Entire Frame <abbr title="Total time spent in convert_frame function">[?]</abbr>: 0.15928292274475098</div>
+    <p>Backend <abbr title="Time spent running the backend compiler">[?]</abbr>: 0.1208658218383789</div>
+    
+    <p>Inductor <abbr title="Total time spent running inductor">[?]</abbr>: 0.022104263305664062</div>
+    
+    
+    <p>Code Gen Time: 0.003506183624267578</p>
+    
+    <div>Dynamo Time Before Restart <abbr title="Total time spent restarting dynamo analysis">[?]</abbr>: 0.0</div>
+    <h2>Restarts and Failures</h2>
+    
+    <p> No failures! </p>
+    
+    
+    <p> No restarts! </p>
+    
+    <h2>Cache Metrics</h2>
+    <p>Cache Size: 0</p>
+    <p>Accumulated Cache Size: 2</p>
+    <h2>Graph Metrics</h2>
+    <p><a href='dynamo_guards.html'>Guard</a> Count: 25</p>
+    <p>Shape Env Guards: 0</p>
+    <p>Graph Ops: 12</p>
+    <p>Graph Nodes: 25</p>
+    <p>Graph Inputs: 12</p>
+    <h2> Custom Ops </h2>
+    <p> Compliant Custom Ops:</p>
+    
+    <p> Non-Compliant Custom Ops:</p>
+    
+    <h2>Symbolic shape specializations</h2>
+    <table>
+    <tr>
+        <th>Sym</th> <th>Source(s)</th> <th>Value</th> <th>User stack</th> <th>Framework stack</th>
+    </tr>
+    
+    </table>
+</body>
+</html>

@@ -1,0 +1,7 @@
+class GraphModule(torch.nn.Module):
+    def forward(self):
+        # No stacktrace found for following nodes
+        _enter_autocast = torch.amp.autocast_mode._enter_autocast('cpu', None, True, None)
+        _exit_autocast = torch.amp.autocast_mode._exit_autocast(_enter_autocast);  _enter_autocast = None
+        return ()
+        

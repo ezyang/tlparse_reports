@@ -1,0 +1,31 @@
+
+TREE_GUARD_MANAGER:
++- RootGuardManager
+| +- DEFAULT_DEVICE: utils_device.CURRENT_DEVICE == None                           # _dynamo/output_graph.py:460 in init_ambient_guards
+| +- GLOBAL_STATE: ___check_global_state()
+| +- GuardManager: source=L['seed'], accessed_by=DictGetItemGuardAccessor(seed)
+| | +- TYPE_MATCH: ___check_type_id(L['seed'], 7648640)                        
+| +- GuardManager: source=L['batch_size'], accessed_by=DictGetItemGuardAccessor(batch_size)
+| | +- EQUALS_MATCH: L['batch_size'] == 1                                        
+| +- GuardManager: source=L['to_seq_len'], accessed_by=DictGetItemGuardAccessor(to_seq_len)
+| | +- EQUALS_MATCH: L['to_seq_len'] == 832                                      
+| +- GuardManager: source=L['from_seq_len'], accessed_by=DictGetItemGuardAccessor(from_seq_len)
+| | +- EQUALS_MATCH: L['from_seq_len'] == 832                                    
+| +- GuardManager: source=L['to_block_size'], accessed_by=DictGetItemGuardAccessor(to_block_size)
+| | +- EQUALS_MATCH: L['to_block_size'] == 64                                    
+| +- GuardManager: source=L['from_block_size'], accessed_by=DictGetItemGuardAccessor(from_block_size)
+| | +- EQUALS_MATCH: L['from_block_size'] == 64                                  
+| +- GuardManager: source=L['attention_head_size'], accessed_by=DictGetItemGuardAccessor(attention_head_size)
+| | +- EQUALS_MATCH: L['attention_head_size'] == 64                              
+| +- GuardManager: source=G, accessed_by=GlobalsGuardAccessor
+| | +- GuardManager: source=G['np'], accessed_by=DictGetItemGuardAccessor(np)
+| | | +- ID_MATCH: ___check_obj_id(G['np'], 140633408227744)                   
+| | | +- GuardManager: source=G['np'].random, accessed_by=GetAttrGuardAccessor(random)
+| | | | +- ID_MATCH: ___check_obj_id(G['np'].random, 140630629737120)            
+| | | | +- GuardManager: source=G['np'].random.seed, accessed_by=GetAttrGuardAccessor(seed)
+| | | | | +- ID_MATCH: ___check_obj_id(G['np'].random.seed, 140630627907632)       
+| | +- GuardManager: source=G['math'], accessed_by=DictGetItemGuardAccessor(math)
+| | | +- ID_MATCH: ___check_obj_id(G['math'], 140633412920048)                 
+| | | +- GuardManager: source=G['math'].sqrt, accessed_by=GetAttrGuardAccessor(sqrt)
+| | | | +- ID_MATCH: ___check_obj_id(G['math'].sqrt, 140633412923648)            
++- LAMBDA_GUARD: -9223372036854775808 <= L['seed']                             # _dynamo/output_graph.py:452 in init_ambient_guards

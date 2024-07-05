@@ -1,0 +1,29 @@
+class <lambda>(torch.nn.Module):
+    def forward(self, arg0_1: "i32[13, 3][3, 1]cpu", arg1_1: "i32[13, 3][3, 1]cpu", arg2_1: "i32[13, 3][3, 1]cpu", arg3_1: "i32[13, 3][3, 1]cpu", arg4_1: "i32[13, 3][3, 1]cpu", arg5_1: "i32[13, 3][3, 1]cpu", arg6_1: "i32[13, 3][3, 1]cpu", arg7_1: "i32[13, 3][3, 1]cpu", arg8_1: "i32[13, 3][3, 1]cpu", arg9_1: "i32[13, 3][3, 1]cpu", arg10_1: "i32[13, 3][3, 1]cpu", arg11_1: "i32[13, 3][3, 1]cpu"):
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:1172 in torch_dynamo_resume_in__bigbird_block_rand_mask_with_head_at_1165, code: rand_attn[nh] = rand_attn[nh][global_block_top : num_blocks - global_block_bottom, :]
+        slice_1: "i32[11, 3][3, 1]cpu" = torch.ops.aten.slice.Tensor(arg0_1, 0, 1, 12);  arg0_1 = None
+        slice_2: "i32[11, 3][3, 1]cpu" = torch.ops.aten.slice.Tensor(slice_1, 1, 0, 9223372036854775807);  slice_1 = None
+        slice_3: "i32[11, 3][3, 1]cpu" = torch.ops.aten.slice.Tensor(arg1_1, 0, 1, 12);  arg1_1 = None
+        slice_4: "i32[11, 3][3, 1]cpu" = torch.ops.aten.slice.Tensor(slice_3, 1, 0, 9223372036854775807);  slice_3 = None
+        slice_5: "i32[11, 3][3, 1]cpu" = torch.ops.aten.slice.Tensor(arg2_1, 0, 1, 12);  arg2_1 = None
+        slice_6: "i32[11, 3][3, 1]cpu" = torch.ops.aten.slice.Tensor(slice_5, 1, 0, 9223372036854775807);  slice_5 = None
+        slice_7: "i32[11, 3][3, 1]cpu" = torch.ops.aten.slice.Tensor(arg3_1, 0, 1, 12);  arg3_1 = None
+        slice_8: "i32[11, 3][3, 1]cpu" = torch.ops.aten.slice.Tensor(slice_7, 1, 0, 9223372036854775807);  slice_7 = None
+        slice_9: "i32[11, 3][3, 1]cpu" = torch.ops.aten.slice.Tensor(arg4_1, 0, 1, 12);  arg4_1 = None
+        slice_10: "i32[11, 3][3, 1]cpu" = torch.ops.aten.slice.Tensor(slice_9, 1, 0, 9223372036854775807);  slice_9 = None
+        slice_11: "i32[11, 3][3, 1]cpu" = torch.ops.aten.slice.Tensor(arg5_1, 0, 1, 12);  arg5_1 = None
+        slice_12: "i32[11, 3][3, 1]cpu" = torch.ops.aten.slice.Tensor(slice_11, 1, 0, 9223372036854775807);  slice_11 = None
+        slice_13: "i32[11, 3][3, 1]cpu" = torch.ops.aten.slice.Tensor(arg6_1, 0, 1, 12);  arg6_1 = None
+        slice_14: "i32[11, 3][3, 1]cpu" = torch.ops.aten.slice.Tensor(slice_13, 1, 0, 9223372036854775807);  slice_13 = None
+        slice_15: "i32[11, 3][3, 1]cpu" = torch.ops.aten.slice.Tensor(arg7_1, 0, 1, 12);  arg7_1 = None
+        slice_16: "i32[11, 3][3, 1]cpu" = torch.ops.aten.slice.Tensor(slice_15, 1, 0, 9223372036854775807);  slice_15 = None
+        slice_17: "i32[11, 3][3, 1]cpu" = torch.ops.aten.slice.Tensor(arg8_1, 0, 1, 12);  arg8_1 = None
+        slice_18: "i32[11, 3][3, 1]cpu" = torch.ops.aten.slice.Tensor(slice_17, 1, 0, 9223372036854775807);  slice_17 = None
+        slice_19: "i32[11, 3][3, 1]cpu" = torch.ops.aten.slice.Tensor(arg9_1, 0, 1, 12);  arg9_1 = None
+        slice_20: "i32[11, 3][3, 1]cpu" = torch.ops.aten.slice.Tensor(slice_19, 1, 0, 9223372036854775807);  slice_19 = None
+        slice_21: "i32[11, 3][3, 1]cpu" = torch.ops.aten.slice.Tensor(arg10_1, 0, 1, 12);  arg10_1 = None
+        slice_22: "i32[11, 3][3, 1]cpu" = torch.ops.aten.slice.Tensor(slice_21, 1, 0, 9223372036854775807);  slice_21 = None
+        slice_23: "i32[11, 3][3, 1]cpu" = torch.ops.aten.slice.Tensor(arg11_1, 0, 1, 12);  arg11_1 = None
+        slice_24: "i32[11, 3][3, 1]cpu" = torch.ops.aten.slice.Tensor(slice_23, 1, 0, 9223372036854775807);  slice_23 = None
+        return (slice_2, slice_4, slice_6, slice_8, slice_10, slice_12, slice_14, slice_16, slice_18, slice_20, slice_22, slice_24)
+        

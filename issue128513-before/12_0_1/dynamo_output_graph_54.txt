@@ -1,0 +1,7 @@
+class GraphModule(torch.nn.Module):
+    def forward(self):
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:1160 in _bigbird_block_rand_mask_with_head, code: plan_block_length = np.array(plan_from_length) // from_block_size
+        wrapped_array: "i64[2][1]cpu" = torch__dynamo_utils_wrapped_array([704, 832])
+        plan_block_length: "i64[2][1]cpu" = torch__dynamo_utils_wrapped_floordiv(wrapped_array, 64);  wrapped_array = None
+        return (plan_block_length,)
+        

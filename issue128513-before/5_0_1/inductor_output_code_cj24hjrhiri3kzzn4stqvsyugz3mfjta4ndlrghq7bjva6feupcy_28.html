@@ -1,0 +1,236 @@
+<pre style="background-color:#ffffff;">
+<span style="color:#323232;">
+</span><span style="font-style:italic;color:#969896;"># AOT ID: [&#39;3_inference&#39;]
+</span><span style="font-weight:bold;color:#a71d5d;">from </span><span style="color:#323232;">ctypes </span><span style="font-weight:bold;color:#a71d5d;">import </span><span style="color:#323232;">c_void_p, c_long
+</span><span style="font-weight:bold;color:#a71d5d;">import </span><span style="color:#323232;">torch
+</span><span style="font-weight:bold;color:#a71d5d;">import </span><span style="color:#323232;">math
+</span><span style="font-weight:bold;color:#a71d5d;">import </span><span style="color:#323232;">random
+</span><span style="font-weight:bold;color:#a71d5d;">import </span><span style="color:#323232;">os
+</span><span style="font-weight:bold;color:#a71d5d;">import </span><span style="color:#323232;">tempfile
+</span><span style="font-weight:bold;color:#a71d5d;">from </span><span style="color:#323232;">math </span><span style="font-weight:bold;color:#a71d5d;">import </span><span style="color:#323232;">inf, nan
+</span><span style="font-weight:bold;color:#a71d5d;">from </span><span style="color:#323232;">torch._inductor.hooks </span><span style="font-weight:bold;color:#a71d5d;">import </span><span style="color:#323232;">run_intermediate_hooks
+</span><span style="font-weight:bold;color:#a71d5d;">from </span><span style="color:#323232;">torch._inductor.utils </span><span style="font-weight:bold;color:#a71d5d;">import </span><span style="color:#323232;">maybe_profile
+</span><span style="font-weight:bold;color:#a71d5d;">from </span><span style="color:#323232;">torch._inductor.codegen.memory_planning </span><span style="font-weight:bold;color:#a71d5d;">import </span><span style="color:#323232;">_align </span><span style="font-weight:bold;color:#a71d5d;">as </span><span style="color:#323232;">align
+</span><span style="color:#323232;">
+</span><span style="font-weight:bold;color:#a71d5d;">from </span><span style="color:#323232;">torch </span><span style="font-weight:bold;color:#a71d5d;">import </span><span style="color:#323232;">device, empty_strided
+</span><span style="font-weight:bold;color:#a71d5d;">from </span><span style="color:#323232;">torch._inductor.async_compile </span><span style="font-weight:bold;color:#a71d5d;">import </span><span style="color:#323232;">AsyncCompile
+</span><span style="font-weight:bold;color:#a71d5d;">from </span><span style="color:#323232;">torch._inductor.select_algorithm </span><span style="font-weight:bold;color:#a71d5d;">import </span><span style="color:#323232;">extern_kernels
+</span><span style="font-weight:bold;color:#a71d5d;">from </span><span style="color:#323232;">torch._inductor.codegen.multi_kernel </span><span style="font-weight:bold;color:#a71d5d;">import </span><span style="color:#323232;">MultiKernelCall
+</span><span style="color:#323232;">
+</span><span style="color:#323232;">aten </span><span style="font-weight:bold;color:#a71d5d;">= </span><span style="color:#323232;">torch.ops.aten
+</span><span style="color:#323232;">inductor_ops </span><span style="font-weight:bold;color:#a71d5d;">= </span><span style="color:#323232;">torch.ops.inductor
+</span><span style="color:#323232;">_quantized </span><span style="font-weight:bold;color:#a71d5d;">= </span><span style="color:#323232;">torch.ops._quantized
+</span><span style="color:#323232;">assert_size_stride </span><span style="font-weight:bold;color:#a71d5d;">= </span><span style="color:#323232;">torch.</span><span style="color:#0086b3;">_C</span><span style="color:#323232;">._dynamo.guards.assert_size_stride
+</span><span style="color:#323232;">empty_strided_cpu </span><span style="font-weight:bold;color:#a71d5d;">= </span><span style="color:#323232;">torch.</span><span style="color:#0086b3;">_C</span><span style="color:#323232;">._dynamo.guards._empty_strided_cpu
+</span><span style="color:#323232;">empty_strided_cuda </span><span style="font-weight:bold;color:#a71d5d;">= </span><span style="color:#323232;">torch.</span><span style="color:#0086b3;">_C</span><span style="color:#323232;">._dynamo.guards._empty_strided_cuda
+</span><span style="color:#323232;">alloc_from_pool </span><span style="font-weight:bold;color:#a71d5d;">= </span><span style="color:#323232;">torch.ops.inductor._alloc_from_pool
+</span><span style="color:#323232;">reinterpret_tensor </span><span style="font-weight:bold;color:#a71d5d;">= </span><span style="color:#323232;">torch.ops.inductor._reinterpret_tensor
+</span><span style="color:#323232;">async_compile </span><span style="font-weight:bold;color:#a71d5d;">= </span><span style="color:#323232;">AsyncCompile()
+</span><span style="color:#323232;">_frozen_param0 </span><span style="font-weight:bold;color:#a71d5d;">= </span><span style="color:#0086b3;">None  </span><span style="font-style:italic;color:#969896;"># device(type=&#39;cpu&#39;) torch.float32 (50358, 768) (768, 1) 7fe65d589170
+</span><span style="color:#323232;">_frozen_param1 </span><span style="font-weight:bold;color:#a71d5d;">= </span><span style="color:#0086b3;">None  </span><span style="font-style:italic;color:#969896;"># device(type=&#39;cpu&#39;) torch.float32 (2, 768) (768, 1) 7fe65d589120
+</span><span style="color:#323232;">_frozen_param3 </span><span style="font-weight:bold;color:#a71d5d;">= </span><span style="color:#0086b3;">None  </span><span style="font-style:italic;color:#969896;"># device(type=&#39;cpu&#39;) torch.float32 (768,) (1,) 7fe65d5892b0
+</span><span style="color:#323232;">_frozen_param4 </span><span style="font-weight:bold;color:#a71d5d;">= </span><span style="color:#0086b3;">None  </span><span style="font-style:italic;color:#969896;"># device(type=&#39;cpu&#39;) torch.float32 (768,) (1,) 7fe65d5890d0
+</span><span style="color:#323232;">_frozen_param6 </span><span style="font-weight:bold;color:#a71d5d;">= </span><span style="color:#0086b3;">None  </span><span style="font-style:italic;color:#969896;"># device(type=&#39;cpu&#39;) torch.float32 (1, 832, 768) (638976, 768, 1) 7fe5b47ff880
+</span><span style="color:#323232;">
+</span><span style="color:#323232;">
+</span><span style="color:#323232;">cpp_fused_add_cat_embedding_mul_native_layer_norm_0 </span><span style="font-weight:bold;color:#a71d5d;">= </span><span style="color:#323232;">async_compile.cpp_pybinding([</span><span style="color:#183691;">&#39;const int64_t*&#39;</span><span style="color:#323232;">, </span><span style="color:#183691;">&#39;const float*&#39;</span><span style="color:#323232;">, </span><span style="color:#183691;">&#39;const int64_t*&#39;</span><span style="color:#323232;">, </span><span style="color:#183691;">&#39;const float*&#39;</span><span style="color:#323232;">, </span><span style="color:#183691;">&#39;const float*&#39;</span><span style="color:#323232;">, </span><span style="color:#183691;">&#39;const float*&#39;</span><span style="color:#323232;">, </span><span style="color:#183691;">&#39;const float*&#39;</span><span style="color:#323232;">, </span><span style="color:#183691;">&#39;const float*&#39;</span><span style="color:#323232;">, </span><span style="color:#183691;">&#39;const float*&#39;</span><span style="color:#323232;">, </span><span style="color:#183691;">&#39;float*&#39;</span><span style="color:#323232;">, </span><span style="color:#183691;">&#39;float*&#39;</span><span style="color:#323232;">, </span><span style="color:#183691;">&#39;float*&#39;</span><span style="color:#323232;">, </span><span style="color:#183691;">&#39;float*&#39;</span><span style="color:#323232;">, </span><span style="color:#183691;">&#39;float*&#39;</span><span style="color:#323232;">, </span><span style="color:#183691;">&#39;float*&#39;</span><span style="color:#323232;">, </span><span style="color:#183691;">&#39;float*&#39;</span><span style="color:#323232;">, </span><span style="color:#183691;">&#39;float*&#39;</span><span style="color:#323232;">], </span><span style="color:#183691;">&#39;&#39;&#39;
+</span><span style="color:#183691;">#include &quot;/tmp/torchinductor_leslie/sk/cskh5dx62fglpphcrl6723dnmowdabouerrzy3dmqcngbxwfa7bv.h&quot;
+</span><span style="color:#183691;">extern &quot;C&quot; void kernel(const int64_t* in_ptr0,
+</span><span style="color:#183691;">                       const float* in_ptr1,
+</span><span style="color:#183691;">                       const int64_t* in_ptr2,
+</span><span style="color:#183691;">                       const float* in_ptr3,
+</span><span style="color:#183691;">                       const float* in_ptr4,
+</span><span style="color:#183691;">                       const float* in_ptr5,
+</span><span style="color:#183691;">                       const float* in_ptr6,
+</span><span style="color:#183691;">                       const float* in_ptr7,
+</span><span style="color:#183691;">                       const float* in_ptr8,
+</span><span style="color:#183691;">                       float* out_ptr0,
+</span><span style="color:#183691;">                       float* out_ptr1,
+</span><span style="color:#183691;">                       float* out_ptr2,
+</span><span style="color:#183691;">                       float* out_ptr3,
+</span><span style="color:#183691;">                       float* out_ptr4,
+</span><span style="color:#183691;">                       float* out_ptr5,
+</span><span style="color:#183691;">                       float* out_ptr6,
+</span><span style="color:#183691;">                       float* out_ptr7)
+</span><span style="color:#183691;">{
+</span><span style="color:#183691;">    #pragma omp parallel num_threads(56)
+</span><span style="color:#183691;">    {
+</span><span style="color:#183691;">        int tid = omp_get_thread_num();
+</span><span style="color:#183691;">        {
+</span><span style="color:#183691;">            #pragma omp for
+</span><span style="color:#183691;">            for(long x0=static_cast&lt;long&gt;(0L); x0&lt;static_cast&lt;long&gt;(832L); x0+=static_cast&lt;long&gt;(1L))
+</span><span style="color:#183691;">            {
+</span><span style="color:#183691;">                {
+</span><span style="color:#183691;">                    Welford&lt;float&gt; tmp_acc0 = Welford&lt;float&gt;();
+</span><span style="color:#183691;">                    Welford&lt;at::vec::Vectorized&lt;float&gt;&gt; tmp_acc0_vec = Welford&lt;at::vec::Vectorized&lt;float&gt;&gt;();
+</span><span style="color:#183691;">                    static WeightRecp&lt;at::vec::Vectorized&lt;float&gt;&gt; weight_recps(static_cast&lt;long&gt;(48L));
+</span><span style="color:#183691;">                    for(long x1=static_cast&lt;long&gt;(0L); x1&lt;static_cast&lt;long&gt;(768L); x1+=static_cast&lt;long&gt;(16L))
+</span><span style="color:#183691;">                    {
+</span><span style="color:#183691;">                        auto tmp0 = in_ptr0[static_cast&lt;long&gt;(x0)];
+</span><span style="color:#183691;">                        auto tmp10 = in_ptr2[static_cast&lt;long&gt;(x0)];
+</span><span style="color:#183691;">                        auto tmp21 = at::vec::Vectorized&lt;float&gt;::loadu(in_ptr4 + static_cast&lt;long&gt;(x1 + (768L*x0)), 16);
+</span><span style="color:#183691;">                        auto tmp1 = 50358L;
+</span><span style="color:#183691;">                        auto tmp2 = c10::convert&lt;int64_t&gt;(tmp1);
+</span><span style="color:#183691;">                        auto tmp3 = decltype(tmp0)(tmp0 + tmp2);
+</span><span style="color:#183691;">                        auto tmp4 = tmp0 &lt; 0;
+</span><span style="color:#183691;">                        auto tmp5 = tmp4 ? tmp3 : tmp0;
+</span><span style="color:#183691;">                        auto tmp6 = tmp5;
+</span><span style="color:#183691;">                        auto tmp7 = c10::convert&lt;int64_t&gt;(tmp6);
+</span><span style="color:#183691;">                        TORCH_CHECK((0 &lt;= tmp7) &amp; (tmp7 &lt; 50358L), &quot;index out of bounds: 0 &lt;= tmp7 &lt; 50358L&quot;);
+</span><span style="color:#183691;">                        auto tmp9 = at::vec::Vectorized&lt;float&gt;::loadu(in_ptr1 + static_cast&lt;long&gt;(x1 + (768L*tmp5)), 16);
+</span><span style="color:#183691;">                        auto tmp11 = 2L;
+</span><span style="color:#183691;">                        auto tmp12 = c10::convert&lt;int64_t&gt;(tmp11);
+</span><span style="color:#183691;">                        auto tmp13 = decltype(tmp10)(tmp10 + tmp12);
+</span><span style="color:#183691;">                        auto tmp14 = tmp10 &lt; 0;
+</span><span style="color:#183691;">                        auto tmp15 = tmp14 ? tmp13 : tmp10;
+</span><span style="color:#183691;">                        auto tmp16 = tmp15;
+</span><span style="color:#183691;">                        auto tmp17 = c10::convert&lt;int64_t&gt;(tmp16);
+</span><span style="color:#183691;">                        TORCH_CHECK((0 &lt;= tmp17) &amp; (tmp17 &lt; 2L), &quot;index out of bounds: 0 &lt;= tmp17 &lt; 2L&quot;);
+</span><span style="color:#183691;">                        auto tmp19 = at::vec::Vectorized&lt;float&gt;::loadu(in_ptr3 + static_cast&lt;long&gt;(x1 + (768L*tmp15)), 16);
+</span><span style="color:#183691;">                        auto tmp20 = tmp9 + tmp19;
+</span><span style="color:#183691;">                        auto tmp22 = tmp20 + tmp21;
+</span><span style="color:#183691;">                        tmp22.store(out_ptr0 + static_cast&lt;long&gt;(x1 + (768L*x0)));
+</span><span style="color:#183691;">                        tmp_acc0_vec = welford_combine(tmp_acc0_vec, tmp22, &amp;weight_recps);
+</span><span style="color:#183691;">                    }
+</span><span style="color:#183691;">                    tmp_acc0 = welford_combine(tmp_acc0, welford_vec_reduce_all(tmp_acc0_vec));
+</span><span style="color:#183691;">                    out_ptr1[static_cast&lt;long&gt;(x0)] = static_cast&lt;float&gt;(tmp_acc0.mean);
+</span><span style="color:#183691;">                    out_ptr2[static_cast&lt;long&gt;(x0)] = static_cast&lt;float&gt;(tmp_acc0.m2);
+</span><span style="color:#183691;">                }
+</span><span style="color:#183691;">                for(long x1=static_cast&lt;long&gt;(0L); x1&lt;static_cast&lt;long&gt;(768L); x1+=static_cast&lt;long&gt;(16L))
+</span><span style="color:#183691;">                {
+</span><span style="color:#183691;">                    auto tmp0 = at::vec::Vectorized&lt;float&gt;::loadu(out_ptr0 + static_cast&lt;long&gt;(x1 + (768L*x0)), 16);
+</span><span style="color:#183691;">                    auto tmp1 = out_ptr1[static_cast&lt;long&gt;(x0)];
+</span><span style="color:#183691;">                    auto tmp4 = out_ptr2[static_cast&lt;long&gt;(x0)];
+</span><span style="color:#183691;">                    auto tmp12 = at::vec::Vectorized&lt;float&gt;::loadu(in_ptr5 + static_cast&lt;long&gt;(x1), 16);
+</span><span style="color:#183691;">                    auto tmp14 = at::vec::Vectorized&lt;float&gt;::loadu(in_ptr6 + static_cast&lt;long&gt;(x1), 16);
+</span><span style="color:#183691;">                    auto tmp2 = at::vec::Vectorized&lt;float&gt;(tmp1);
+</span><span style="color:#183691;">                    auto tmp3 = tmp0 - tmp2;
+</span><span style="color:#183691;">                    auto tmp5 = static_cast&lt;float&gt;(768.0);
+</span><span style="color:#183691;">                    auto tmp6 = tmp4 / tmp5;
+</span><span style="color:#183691;">                    auto tmp7 = static_cast&lt;float&gt;(1e-12);
+</span><span style="color:#183691;">                    auto tmp8 = decltype(tmp6)(tmp6 + tmp7);
+</span><span style="color:#183691;">                    auto tmp9 = 1 / std::sqrt(tmp8);
+</span><span style="color:#183691;">                    auto tmp10 = at::vec::Vectorized&lt;float&gt;(tmp9);
+</span><span style="color:#183691;">                    auto tmp11 = tmp3 * tmp10;
+</span><span style="color:#183691;">                    auto tmp13 = tmp11 * tmp12;
+</span><span style="color:#183691;">                    auto tmp15 = tmp13 + tmp14;
+</span><span style="color:#183691;">                    tmp15.store(out_ptr3 + static_cast&lt;long&gt;(x1 + (768L*x0)));
+</span><span style="color:#183691;">                }
+</span><span style="color:#183691;">            }
+</span><span style="color:#183691;">        }
+</span><span style="color:#183691;">        #pragma omp single
+</span><span style="color:#183691;">        {
+</span><span style="color:#183691;">            {
+</span><span style="color:#183691;">                #pragma GCC ivdep
+</span><span style="color:#183691;">                for(long x0=static_cast&lt;long&gt;(0L); x0&lt;static_cast&lt;long&gt;(9L); x0+=static_cast&lt;long&gt;(1L))
+</span><span style="color:#183691;">                {
+</span><span style="color:#183691;">                    for(long x1=static_cast&lt;long&gt;(0L); x1&lt;static_cast&lt;long&gt;(64L); x1+=static_cast&lt;long&gt;(16L))
+</span><span style="color:#183691;">                    {
+</span><span style="color:#183691;">                        auto tmp0 = at::vec::Vectorized&lt;float&gt;::loadu(in_ptr7 + static_cast&lt;long&gt;(64L + x1 + (64L*x0)), 16);
+</span><span style="color:#183691;">                        tmp0.store(out_ptr4 + static_cast&lt;long&gt;(x1 + (192L*x0)));
+</span><span style="color:#183691;">                    }
+</span><span style="color:#183691;">                }
+</span><span style="color:#183691;">            }
+</span><span style="color:#183691;">        }
+</span><span style="color:#183691;">        #pragma omp single
+</span><span style="color:#183691;">        {
+</span><span style="color:#183691;">            {
+</span><span style="color:#183691;">                #pragma GCC ivdep
+</span><span style="color:#183691;">                for(long x0=static_cast&lt;long&gt;(0L); x0&lt;static_cast&lt;long&gt;(9L); x0+=static_cast&lt;long&gt;(1L))
+</span><span style="color:#183691;">                {
+</span><span style="color:#183691;">                    for(long x1=static_cast&lt;long&gt;(0L); x1&lt;static_cast&lt;long&gt;(64L); x1+=static_cast&lt;long&gt;(16L))
+</span><span style="color:#183691;">                    {
+</span><span style="color:#183691;">                        auto tmp0 = at::vec::Vectorized&lt;float&gt;::loadu(in_ptr7 + static_cast&lt;long&gt;(128L + x1 + (64L*x0)), 16);
+</span><span style="color:#183691;">                        tmp0.store(out_ptr5 + static_cast&lt;long&gt;(x1 + (192L*x0)));
+</span><span style="color:#183691;">                    }
+</span><span style="color:#183691;">                }
+</span><span style="color:#183691;">            }
+</span><span style="color:#183691;">        }
+</span><span style="color:#183691;">        #pragma omp single
+</span><span style="color:#183691;">        {
+</span><span style="color:#183691;">            {
+</span><span style="color:#183691;">                #pragma GCC ivdep
+</span><span style="color:#183691;">                for(long x0=static_cast&lt;long&gt;(0L); x0&lt;static_cast&lt;long&gt;(9L); x0+=static_cast&lt;long&gt;(1L))
+</span><span style="color:#183691;">                {
+</span><span style="color:#183691;">                    for(long x1=static_cast&lt;long&gt;(0L); x1&lt;static_cast&lt;long&gt;(64L); x1+=static_cast&lt;long&gt;(16L))
+</span><span style="color:#183691;">                    {
+</span><span style="color:#183691;">                        auto tmp0 = at::vec::Vectorized&lt;float&gt;::loadu(in_ptr7 + static_cast&lt;long&gt;(192L + x1 + (64L*x0)), 16);
+</span><span style="color:#183691;">                        tmp0.store(out_ptr6 + static_cast&lt;long&gt;(x1 + (192L*x0)));
+</span><span style="color:#183691;">                    }
+</span><span style="color:#183691;">                }
+</span><span style="color:#183691;">            }
+</span><span style="color:#183691;">        }
+</span><span style="color:#183691;">        #pragma omp single
+</span><span style="color:#183691;">        {
+</span><span style="color:#183691;">            {
+</span><span style="color:#183691;">                #pragma GCC ivdep
+</span><span style="color:#183691;">                for(long x0=static_cast&lt;long&gt;(0L); x0&lt;static_cast&lt;long&gt;(9L); x0+=static_cast&lt;long&gt;(1L))
+</span><span style="color:#183691;">                {
+</span><span style="color:#183691;">                    #pragma GCC ivdep
+</span><span style="color:#183691;">                    for(long x1=static_cast&lt;long&gt;(0L); x1&lt;static_cast&lt;long&gt;(64L); x1+=static_cast&lt;long&gt;(1L))
+</span><span style="color:#183691;">                    {
+</span><span style="color:#183691;">                        for(long x2=static_cast&lt;long&gt;(0L); x2&lt;static_cast&lt;long&gt;(192L); x2+=static_cast&lt;long&gt;(16L))
+</span><span style="color:#183691;">                        {
+</span><span style="color:#183691;">                            auto tmp0 = in_ptr7[static_cast&lt;long&gt;(128L + x1 + (64L*x0))];
+</span><span style="color:#183691;">                            auto tmp1 = at::vec::Vectorized&lt;float&gt;::loadu(in_ptr8 + static_cast&lt;long&gt;(x2 + (192L*x0)), 16);
+</span><span style="color:#183691;">                            auto tmp2 = at::vec::Vectorized&lt;float&gt;(tmp0);
+</span><span style="color:#183691;">                            auto tmp3 = tmp2 * tmp1;
+</span><span style="color:#183691;">                            tmp3.store(out_ptr7 + static_cast&lt;long&gt;(x2 + (192L*x1) + (12288L*x0)));
+</span><span style="color:#183691;">                        }
+</span><span style="color:#183691;">                    }
+</span><span style="color:#183691;">                }
+</span><span style="color:#183691;">            }
+</span><span style="color:#183691;">        }
+</span><span style="color:#183691;">    }
+</span><span style="color:#183691;">}
+</span><span style="color:#183691;">&#39;&#39;&#39;</span><span style="color:#323232;">)
+</span><span style="color:#323232;">
+</span><span style="color:#323232;">
+</span><span style="color:#323232;">async_compile.wait(</span><span style="color:#62a35c;">globals</span><span style="color:#323232;">())
+</span><span style="font-weight:bold;color:#a71d5d;">del </span><span style="color:#323232;">async_compile
+</span><span style="color:#323232;">
+</span><span style="font-weight:bold;color:#a71d5d;">def </span><span style="font-weight:bold;color:#323232;">call</span><span style="color:#323232;">(args):
+</span><span style="color:#323232;">    arg6_1, arg7_1, arg8_1 </span><span style="font-weight:bold;color:#a71d5d;">= </span><span style="color:#323232;">args
+</span><span style="color:#323232;">    args.clear()
+</span><span style="color:#323232;">    assert_size_stride(arg6_1, (</span><span style="color:#0086b3;">1</span><span style="color:#323232;">, </span><span style="color:#0086b3;">832</span><span style="color:#323232;">), (</span><span style="color:#0086b3;">832</span><span style="color:#323232;">, </span><span style="color:#0086b3;">1</span><span style="color:#323232;">))
+</span><span style="color:#323232;">    assert_size_stride(arg7_1, (</span><span style="color:#0086b3;">1</span><span style="color:#323232;">, </span><span style="color:#0086b3;">832</span><span style="color:#323232;">), (</span><span style="color:#0086b3;">832</span><span style="color:#323232;">, </span><span style="color:#0086b3;">1</span><span style="color:#323232;">))
+</span><span style="color:#323232;">    assert_size_stride(arg8_1, (</span><span style="color:#0086b3;">1</span><span style="color:#323232;">, </span><span style="color:#0086b3;">832</span><span style="color:#323232;">), (</span><span style="color:#0086b3;">832</span><span style="color:#323232;">, </span><span style="color:#0086b3;">1</span><span style="color:#323232;">))
+</span><span style="color:#323232;">    buf0 </span><span style="font-weight:bold;color:#a71d5d;">= </span><span style="color:#323232;">empty_strided_cpu((</span><span style="color:#0086b3;">1</span><span style="color:#323232;">, </span><span style="color:#0086b3;">832</span><span style="color:#323232;">, </span><span style="color:#0086b3;">768</span><span style="color:#323232;">), (</span><span style="color:#0086b3;">638976</span><span style="color:#323232;">, </span><span style="color:#0086b3;">768</span><span style="color:#323232;">, </span><span style="color:#0086b3;">1</span><span style="color:#323232;">), torch.float32)
+</span><span style="color:#323232;">    buf1 </span><span style="font-weight:bold;color:#a71d5d;">= </span><span style="color:#323232;">empty_strided_cpu((</span><span style="color:#0086b3;">1</span><span style="color:#323232;">, </span><span style="color:#0086b3;">832</span><span style="color:#323232;">, </span><span style="color:#0086b3;">1</span><span style="color:#323232;">), (</span><span style="color:#0086b3;">832</span><span style="color:#323232;">, </span><span style="color:#0086b3;">1</span><span style="color:#323232;">, </span><span style="color:#0086b3;">832</span><span style="color:#323232;">), torch.float32)
+</span><span style="color:#323232;">    buf2 </span><span style="font-weight:bold;color:#a71d5d;">= </span><span style="color:#323232;">empty_strided_cpu((</span><span style="color:#0086b3;">1</span><span style="color:#323232;">, </span><span style="color:#0086b3;">832</span><span style="color:#323232;">, </span><span style="color:#0086b3;">1</span><span style="color:#323232;">), (</span><span style="color:#0086b3;">832</span><span style="color:#323232;">, </span><span style="color:#0086b3;">1</span><span style="color:#323232;">, </span><span style="color:#0086b3;">832</span><span style="color:#323232;">), torch.float32)
+</span><span style="color:#323232;">    buf4 </span><span style="font-weight:bold;color:#a71d5d;">= </span><span style="color:#323232;">empty_strided_cpu((</span><span style="color:#0086b3;">1</span><span style="color:#323232;">, </span><span style="color:#0086b3;">832</span><span style="color:#323232;">, </span><span style="color:#0086b3;">768</span><span style="color:#323232;">), (</span><span style="color:#0086b3;">638976</span><span style="color:#323232;">, </span><span style="color:#0086b3;">768</span><span style="color:#323232;">, </span><span style="color:#0086b3;">1</span><span style="color:#323232;">), torch.float32)
+</span><span style="color:#323232;">    buf8 </span><span style="font-weight:bold;color:#a71d5d;">= </span><span style="color:#323232;">empty_strided_cpu((</span><span style="color:#0086b3;">1</span><span style="color:#323232;">, </span><span style="color:#0086b3;">9</span><span style="color:#323232;">, </span><span style="color:#0086b3;">192</span><span style="color:#323232;">), (</span><span style="color:#0086b3;">1728</span><span style="color:#323232;">, </span><span style="color:#0086b3;">192</span><span style="color:#323232;">, </span><span style="color:#0086b3;">1</span><span style="color:#323232;">), torch.float32)
+</span><span style="color:#323232;">    buf5 </span><span style="font-weight:bold;color:#a71d5d;">= </span><span style="color:#323232;">reinterpret_tensor(buf8, (</span><span style="color:#0086b3;">1</span><span style="color:#323232;">, </span><span style="color:#0086b3;">9</span><span style="color:#323232;">, </span><span style="color:#0086b3;">64</span><span style="color:#323232;">), (</span><span style="color:#0086b3;">1728</span><span style="color:#323232;">, </span><span style="color:#0086b3;">192</span><span style="color:#323232;">, </span><span style="color:#0086b3;">1</span><span style="color:#323232;">), </span><span style="color:#0086b3;">0</span><span style="color:#323232;">)  </span><span style="font-style:italic;color:#969896;"># alias
+</span><span style="color:#323232;">    buf6 </span><span style="font-weight:bold;color:#a71d5d;">= </span><span style="color:#323232;">reinterpret_tensor(buf8, (</span><span style="color:#0086b3;">1</span><span style="color:#323232;">, </span><span style="color:#0086b3;">9</span><span style="color:#323232;">, </span><span style="color:#0086b3;">64</span><span style="color:#323232;">), (</span><span style="color:#0086b3;">1728</span><span style="color:#323232;">, </span><span style="color:#0086b3;">192</span><span style="color:#323232;">, </span><span style="color:#0086b3;">1</span><span style="color:#323232;">), </span><span style="color:#0086b3;">64</span><span style="color:#323232;">)  </span><span style="font-style:italic;color:#969896;"># alias
+</span><span style="color:#323232;">    buf7 </span><span style="font-weight:bold;color:#a71d5d;">= </span><span style="color:#323232;">reinterpret_tensor(buf8, (</span><span style="color:#0086b3;">1</span><span style="color:#323232;">, </span><span style="color:#0086b3;">9</span><span style="color:#323232;">, </span><span style="color:#0086b3;">64</span><span style="color:#323232;">), (</span><span style="color:#0086b3;">1728</span><span style="color:#323232;">, </span><span style="color:#0086b3;">192</span><span style="color:#323232;">, </span><span style="color:#0086b3;">1</span><span style="color:#323232;">), </span><span style="color:#0086b3;">128</span><span style="color:#323232;">)  </span><span style="font-style:italic;color:#969896;"># alias
+</span><span style="color:#323232;">    buf9 </span><span style="font-weight:bold;color:#a71d5d;">= </span><span style="color:#323232;">empty_strided_cpu((</span><span style="color:#0086b3;">1</span><span style="color:#323232;">, </span><span style="color:#0086b3;">9</span><span style="color:#323232;">, </span><span style="color:#0086b3;">64</span><span style="color:#323232;">, </span><span style="color:#0086b3;">192</span><span style="color:#323232;">), (</span><span style="color:#0086b3;">110592</span><span style="color:#323232;">, </span><span style="color:#0086b3;">12288</span><span style="color:#323232;">, </span><span style="color:#0086b3;">192</span><span style="color:#323232;">, </span><span style="color:#0086b3;">1</span><span style="color:#323232;">), torch.float32)
+</span><span style="color:#323232;">    cpp_fused_add_cat_embedding_mul_native_layer_norm_0(arg6_1, _frozen_param0, arg8_1, _frozen_param1, _frozen_param6, _frozen_param3, _frozen_param4, arg7_1, buf8, buf0, buf1, buf2, buf4, buf5, buf6, buf7, buf9)
+</span><span style="color:#323232;">    </span><span style="font-weight:bold;color:#a71d5d;">del </span><span style="color:#323232;">arg6_1
+</span><span style="color:#323232;">    </span><span style="font-weight:bold;color:#a71d5d;">del </span><span style="color:#323232;">arg8_1
+</span><span style="color:#323232;">    </span><span style="font-weight:bold;color:#a71d5d;">return </span><span style="color:#323232;">(buf4, reinterpret_tensor(buf9, (</span><span style="color:#0086b3;">1</span><span style="color:#323232;">, </span><span style="color:#0086b3;">1</span><span style="color:#323232;">, </span><span style="color:#0086b3;">9</span><span style="color:#323232;">, </span><span style="color:#0086b3;">64</span><span style="color:#323232;">, </span><span style="color:#0086b3;">192</span><span style="color:#323232;">), (</span><span style="color:#0086b3;">110592</span><span style="color:#323232;">, </span><span style="color:#0086b3;">110592</span><span style="color:#323232;">, </span><span style="color:#0086b3;">12288</span><span style="color:#323232;">, </span><span style="color:#0086b3;">192</span><span style="color:#323232;">, </span><span style="color:#0086b3;">1</span><span style="color:#323232;">), </span><span style="color:#0086b3;">0</span><span style="color:#323232;">), reinterpret_tensor(arg7_1, (</span><span style="color:#0086b3;">1</span><span style="color:#323232;">, </span><span style="color:#0086b3;">1</span><span style="color:#323232;">, </span><span style="color:#0086b3;">832</span><span style="color:#323232;">, </span><span style="color:#0086b3;">1</span><span style="color:#323232;">), (</span><span style="color:#0086b3;">832</span><span style="color:#323232;">, </span><span style="color:#0086b3;">832</span><span style="color:#323232;">, </span><span style="color:#0086b3;">1</span><span style="color:#323232;">, </span><span style="color:#0086b3;">1</span><span style="color:#323232;">), </span><span style="color:#0086b3;">0</span><span style="color:#323232;">), reinterpret_tensor(arg7_1, (</span><span style="color:#0086b3;">1</span><span style="color:#323232;">, </span><span style="color:#0086b3;">1</span><span style="color:#323232;">, </span><span style="color:#0086b3;">1</span><span style="color:#323232;">, </span><span style="color:#0086b3;">832</span><span style="color:#323232;">), (</span><span style="color:#0086b3;">832</span><span style="color:#323232;">, </span><span style="color:#0086b3;">832</span><span style="color:#323232;">, </span><span style="color:#0086b3;">832</span><span style="color:#323232;">, </span><span style="color:#0086b3;">1</span><span style="color:#323232;">), </span><span style="color:#0086b3;">0</span><span style="color:#323232;">), reinterpret_tensor(arg7_1, (</span><span style="color:#0086b3;">1</span><span style="color:#323232;">, </span><span style="color:#0086b3;">13</span><span style="color:#323232;">, </span><span style="color:#0086b3;">64</span><span style="color:#323232;">), (</span><span style="color:#0086b3;">832</span><span style="color:#323232;">, </span><span style="color:#0086b3;">64</span><span style="color:#323232;">, </span><span style="color:#0086b3;">1</span><span style="color:#323232;">), </span><span style="color:#0086b3;">0</span><span style="color:#323232;">), )
+</span><span style="color:#323232;">
+</span><span style="color:#323232;">
+</span><span style="font-weight:bold;color:#a71d5d;">def </span><span style="font-weight:bold;color:#323232;">benchmark_compiled_module</span><span style="color:#323232;">(times</span><span style="font-weight:bold;color:#a71d5d;">=</span><span style="color:#0086b3;">10</span><span style="color:#323232;">, repeat</span><span style="font-weight:bold;color:#a71d5d;">=</span><span style="color:#0086b3;">10</span><span style="color:#323232;">):
+</span><span style="color:#323232;">    </span><span style="font-weight:bold;color:#a71d5d;">from </span><span style="color:#323232;">torch._dynamo.testing </span><span style="font-weight:bold;color:#a71d5d;">import </span><span style="color:#323232;">rand_strided
+</span><span style="color:#323232;">    </span><span style="font-weight:bold;color:#a71d5d;">from </span><span style="color:#323232;">torch._inductor.utils </span><span style="font-weight:bold;color:#a71d5d;">import </span><span style="color:#323232;">print_performance
+</span><span style="color:#323232;">    </span><span style="font-weight:bold;color:#a71d5d;">global </span><span style="color:#323232;">_frozen_param0
+</span><span style="color:#323232;">    _frozen_param0 </span><span style="font-weight:bold;color:#a71d5d;">= </span><span style="color:#323232;">rand_strided((</span><span style="color:#0086b3;">50358</span><span style="color:#323232;">, </span><span style="color:#0086b3;">768</span><span style="color:#323232;">), (</span><span style="color:#0086b3;">768</span><span style="color:#323232;">, </span><span style="color:#0086b3;">1</span><span style="color:#323232;">), device</span><span style="font-weight:bold;color:#a71d5d;">=</span><span style="color:#183691;">&#39;cpu&#39;</span><span style="color:#323232;">, dtype</span><span style="font-weight:bold;color:#a71d5d;">=</span><span style="color:#323232;">torch.float32)
+</span><span style="color:#323232;">    </span><span style="font-weight:bold;color:#a71d5d;">global </span><span style="color:#323232;">_frozen_param1
+</span><span style="color:#323232;">    _frozen_param1 </span><span style="font-weight:bold;color:#a71d5d;">= </span><span style="color:#323232;">rand_strided((</span><span style="color:#0086b3;">2</span><span style="color:#323232;">, </span><span style="color:#0086b3;">768</span><span style="color:#323232;">), (</span><span style="color:#0086b3;">768</span><span style="color:#323232;">, </span><span style="color:#0086b3;">1</span><span style="color:#323232;">), device</span><span style="font-weight:bold;color:#a71d5d;">=</span><span style="color:#183691;">&#39;cpu&#39;</span><span style="color:#323232;">, dtype</span><span style="font-weight:bold;color:#a71d5d;">=</span><span style="color:#323232;">torch.float32)
+</span><span style="color:#323232;">    </span><span style="font-weight:bold;color:#a71d5d;">global </span><span style="color:#323232;">_frozen_param3
+</span><span style="color:#323232;">    _frozen_param3 </span><span style="font-weight:bold;color:#a71d5d;">= </span><span style="color:#323232;">rand_strided((</span><span style="color:#0086b3;">768</span><span style="color:#323232;">, ), (</span><span style="color:#0086b3;">1</span><span style="color:#323232;">, ), device</span><span style="font-weight:bold;color:#a71d5d;">=</span><span style="color:#183691;">&#39;cpu&#39;</span><span style="color:#323232;">, dtype</span><span style="font-weight:bold;color:#a71d5d;">=</span><span style="color:#323232;">torch.float32)
+</span><span style="color:#323232;">    </span><span style="font-weight:bold;color:#a71d5d;">global </span><span style="color:#323232;">_frozen_param4
+</span><span style="color:#323232;">    _frozen_param4 </span><span style="font-weight:bold;color:#a71d5d;">= </span><span style="color:#323232;">rand_strided((</span><span style="color:#0086b3;">768</span><span style="color:#323232;">, ), (</span><span style="color:#0086b3;">1</span><span style="color:#323232;">, ), device</span><span style="font-weight:bold;color:#a71d5d;">=</span><span style="color:#183691;">&#39;cpu&#39;</span><span style="color:#323232;">, dtype</span><span style="font-weight:bold;color:#a71d5d;">=</span><span style="color:#323232;">torch.float32)
+</span><span style="color:#323232;">    </span><span style="font-weight:bold;color:#a71d5d;">global </span><span style="color:#323232;">_frozen_param6
+</span><span style="color:#323232;">    _frozen_param6 </span><span style="font-weight:bold;color:#a71d5d;">= </span><span style="color:#323232;">rand_strided((</span><span style="color:#0086b3;">1</span><span style="color:#323232;">, </span><span style="color:#0086b3;">832</span><span style="color:#323232;">, </span><span style="color:#0086b3;">768</span><span style="color:#323232;">), (</span><span style="color:#0086b3;">638976</span><span style="color:#323232;">, </span><span style="color:#0086b3;">768</span><span style="color:#323232;">, </span><span style="color:#0086b3;">1</span><span style="color:#323232;">), device</span><span style="font-weight:bold;color:#a71d5d;">=</span><span style="color:#183691;">&#39;cpu&#39;</span><span style="color:#323232;">, dtype</span><span style="font-weight:bold;color:#a71d5d;">=</span><span style="color:#323232;">torch.float32)
+</span><span style="color:#323232;">    arg6_1 </span><span style="font-weight:bold;color:#a71d5d;">= </span><span style="color:#323232;">rand_strided((</span><span style="color:#0086b3;">1</span><span style="color:#323232;">, </span><span style="color:#0086b3;">832</span><span style="color:#323232;">), (</span><span style="color:#0086b3;">832</span><span style="color:#323232;">, </span><span style="color:#0086b3;">1</span><span style="color:#323232;">), device</span><span style="font-weight:bold;color:#a71d5d;">=</span><span style="color:#183691;">&#39;cpu&#39;</span><span style="color:#323232;">, dtype</span><span style="font-weight:bold;color:#a71d5d;">=</span><span style="color:#323232;">torch.int64)
+</span><span style="color:#323232;">    arg7_1 </span><span style="font-weight:bold;color:#a71d5d;">= </span><span style="color:#323232;">rand_strided((</span><span style="color:#0086b3;">1</span><span style="color:#323232;">, </span><span style="color:#0086b3;">832</span><span style="color:#323232;">), (</span><span style="color:#0086b3;">832</span><span style="color:#323232;">, </span><span style="color:#0086b3;">1</span><span style="color:#323232;">), device</span><span style="font-weight:bold;color:#a71d5d;">=</span><span style="color:#183691;">&#39;cpu&#39;</span><span style="color:#323232;">, dtype</span><span style="font-weight:bold;color:#a71d5d;">=</span><span style="color:#323232;">torch.float32)
+</span><span style="color:#323232;">    arg8_1 </span><span style="font-weight:bold;color:#a71d5d;">= </span><span style="color:#323232;">rand_strided((</span><span style="color:#0086b3;">1</span><span style="color:#323232;">, </span><span style="color:#0086b3;">832</span><span style="color:#323232;">), (</span><span style="color:#0086b3;">832</span><span style="color:#323232;">, </span><span style="color:#0086b3;">1</span><span style="color:#323232;">), device</span><span style="font-weight:bold;color:#a71d5d;">=</span><span style="color:#183691;">&#39;cpu&#39;</span><span style="color:#323232;">, dtype</span><span style="font-weight:bold;color:#a71d5d;">=</span><span style="color:#323232;">torch.int64)
+</span><span style="color:#323232;">    fn </span><span style="font-weight:bold;color:#a71d5d;">= lambda</span><span style="color:#323232;">: call([arg6_1, arg7_1, arg8_1])
+</span><span style="color:#323232;">    </span><span style="font-weight:bold;color:#a71d5d;">return </span><span style="color:#323232;">print_performance(fn, times</span><span style="font-weight:bold;color:#a71d5d;">=</span><span style="color:#323232;">times, repeat</span><span style="font-weight:bold;color:#a71d5d;">=</span><span style="color:#323232;">repeat)
+</span><span style="color:#323232;">
+</span><span style="color:#323232;">
+</span><span style="font-weight:bold;color:#a71d5d;">if </span><span style="color:#323232;">__name__ </span><span style="font-weight:bold;color:#a71d5d;">== </span><span style="color:#183691;">&quot;__main__&quot;</span><span style="color:#323232;">:
+</span><span style="color:#323232;">    </span><span style="font-weight:bold;color:#a71d5d;">from </span><span style="color:#323232;">torch._inductor.wrapper_benchmark </span><span style="font-weight:bold;color:#a71d5d;">import </span><span style="color:#323232;">compiled_module_main
+</span><span style="color:#323232;">    compiled_module_main(</span><span style="color:#183691;">&#39;hf_BigBird&#39;</span><span style="color:#323232;">, benchmark_compiled_module)
+</span></pre>

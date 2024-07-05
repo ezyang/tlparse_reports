@@ -1,0 +1,32 @@
+class GraphModule(torch.nn.Module):
+    def forward(self, L_hidden_states_: "f32[1, 832, 768][638976, 768, 1]cpu"):
+        l_hidden_states_ = L_hidden_states_
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:468 in forward, code: query_layer = self.transpose_for_scores(self.query(hidden_states))
+        l__self___query: "bf16[1, 832, 768][638976, 768, 1]cpu" = self.L__self___query(l_hidden_states_)
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:443 in transpose_for_scores, code: x = x.view(*new_x_shape)
+        x: "bf16[1, 832, 12, 64][638976, 768, 64, 1]cpu" = l__self___query.view(1, 832, 12, 64);  l__self___query = None
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:444 in transpose_for_scores, code: return x.permute(0, 2, 1, 3)
+        query_layer: "bf16[1, 12, 832, 64][638976, 64, 768, 1]cpu" = x.permute(0, 2, 1, 3);  x = None
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:469 in forward, code: key_layer = self.transpose_for_scores(self.key(hidden_states))
+        l__self___key: "bf16[1, 832, 768][638976, 768, 1]cpu" = self.L__self___key(l_hidden_states_)
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:443 in transpose_for_scores, code: x = x.view(*new_x_shape)
+        x_1: "bf16[1, 832, 12, 64][638976, 768, 64, 1]cpu" = l__self___key.view(1, 832, 12, 64);  l__self___key = None
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:444 in transpose_for_scores, code: return x.permute(0, 2, 1, 3)
+        key_layer: "bf16[1, 12, 832, 64][638976, 64, 768, 1]cpu" = x_1.permute(0, 2, 1, 3);  x_1 = None
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:470 in forward, code: value_layer = self.transpose_for_scores(self.value(hidden_states))
+        l__self___value: "bf16[1, 832, 768][638976, 768, 1]cpu" = self.L__self___value(l_hidden_states_);  l_hidden_states_ = None
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:443 in transpose_for_scores, code: x = x.view(*new_x_shape)
+        x_2: "bf16[1, 832, 12, 64][638976, 768, 64, 1]cpu" = l__self___value.view(1, 832, 12, 64);  l__self___value = None
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:444 in transpose_for_scores, code: return x.permute(0, 2, 1, 3)
+        value_layer: "bf16[1, 12, 832, 64][638976, 64, 768, 1]cpu" = x_2.permute(0, 2, 1, 3);  x_2 = None
+        return (query_layer, key_layer, value_layer)
+        

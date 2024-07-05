@@ -1,0 +1,16 @@
+class GraphModule(torch.nn.Module):
+    def forward(self, L_stack0_0_: "f32[1, 832, 768][638976, 768, 1]cpu", L_hidden_states_: "f32[1, 832, 768][638976, 768, 1]cpu"):
+        l_stack0_0_ = L_stack0_0_
+        l_hidden_states_ = L_hidden_states_
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:1316 in forward, code: hidden_states = self.dense(hidden_states)
+        hidden_states: "bf16[1, 832, 768][638976, 768, 1]cpu" = self.L__self___output_dense(l_stack0_0_);  l_stack0_0_ = None
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:1317 in forward, code: hidden_states = self.dropout(hidden_states)
+        hidden_states_1: "bf16[1, 832, 768][638976, 768, 1]cpu" = self.L__self___output_dropout(hidden_states);  hidden_states = None
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:1318 in forward, code: hidden_states = self.LayerNorm(hidden_states + input_tensor)
+        add: "f32[1, 832, 768][638976, 768, 1]cpu" = hidden_states_1 + l_hidden_states_;  hidden_states_1 = l_hidden_states_ = None
+        hidden_states_2: "f32[1, 832, 768][638976, 768, 1]cpu" = self.L__self___output_LayerNorm(add);  add = None
+        return (hidden_states_2,)
+        

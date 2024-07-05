@@ -1,0 +1,16 @@
+class GraphModule(torch.nn.Module):
+    def forward(self, L_input_ids_: "i64[1, 819][819, 1]cpu", L_attention_mask_: "f32[1, 819][819, 1]cpu", L_token_type_ids_: "i64[1, 819][4096, 1]cpu"):
+        l_input_ids_ = L_input_ids_
+        l_attention_mask_ = L_attention_mask_
+        l_token_type_ids_ = L_token_type_ids_
+        
+        # File: /localdisk/leslie/torch_inductor_community/pytorch/torch/nn/functional.py:4552 in pad, code: return torch._C._nn.pad(input, pad, mode, value)
+        input_ids: "i64[1, 832][832, 1]cpu" = torch._C._nn.pad(l_input_ids_, (0, 13), 'constant', 0);  l_input_ids_ = None
+        
+        # File: /localdisk/leslie/torch_inductor_community/pytorch/torch/nn/functional.py:4552 in pad, code: return torch._C._nn.pad(input, pad, mode, value)
+        attention_mask: "f32[1, 832][832, 1]cpu" = torch._C._nn.pad(l_attention_mask_, (0, 13), 'constant', False);  l_attention_mask_ = None
+        
+        # File: /localdisk/leslie/torch_inductor_community/pytorch/torch/nn/functional.py:4552 in pad, code: return torch._C._nn.pad(input, pad, mode, value)
+        token_type_ids: "i64[1, 832][832, 1]cpu" = torch._C._nn.pad(l_token_type_ids_, (0, 13), 'constant', 0);  l_token_type_ids_ = None
+        return (input_ids, attention_mask, token_type_ids)
+        

@@ -1,0 +1,35 @@
+
+TREE_GUARD_MANAGER:
++- RootGuardManager
+| +- DEFAULT_DEVICE: utils_device.CURRENT_DEVICE == None                           # _dynamo/output_graph.py:460 in init_ambient_guards
+| +- GLOBAL_STATE: ___check_global_state()
+| +- GuardManager: source=L['mod'], accessed_by=DictGetItemGuardAccessor(mod)
+| | +- ID_MATCH: ___check_obj_id(L['mod'], 140627890018752)                  
+| | +- GuardManager: source=L['mod'].__dict__, accessed_by=GetGenericDictGuardAccessor
+| | | +- GuardManager: source=L['mod'].training, accessed_by=DictGetItemGuardAccessor(training)
+| | | | +- ID_MATCH: ___check_obj_id(L['mod'].training, 7685824)                 
+| +- GuardManager: source=L['self'], accessed_by=DictGetItemGuardAccessor(self)
+| | +- TYPE_MATCH: ___check_type_id(L['self'], 140630557395984)                
+| | +- GuardManager: source=L['self'].autocast, accessed_by=GetAttrGuardAccessor(autocast)
+| | | +- TYPE_MATCH: ___check_type_id(L['self'].autocast, 140633431805456)       
+| | | +- GuardManager: source=L['self'].autocast.args, accessed_by=GetAttrGuardAccessor(args)
+| | | | +- TYPE_MATCH: ___check_type_id(L['self'].autocast.args, 7625984)          
+| | | | +- LENGTH_CHECK: not L['self'].autocast.args                                 
+| | | +- GuardManager: source=L['self'].autocast.func, accessed_by=GetAttrGuardAccessor(func)
+| | | | +- ID_MATCH: ___check_obj_id(L['self'].autocast.func, 140633002107920)   
+| | | +- GuardManager: source=L['self'].autocast.keywords, accessed_by=GetAttrGuardAccessor(keywords)
+| | | | +- TYPE_MATCH: ___check_type_id(L['self'].autocast.keywords, 7646656)      
+| | | | +- GuardManager: source=L['self'].autocast.keywords['device_type'], accessed_by=DictGetItemGuardAccessor(device_type)
+| | | | | +- EQUALS_MATCH: L['self'].autocast.keywords['device_type'] == 'cpu'         
+| | +- GuardManager: source=L['self'].autocast_arg, accessed_by=GetAttrGuardAccessor(autocast_arg)
+| | | +- TYPE_MATCH: ___check_type_id(L['self'].autocast_arg, 7646656)           
+| | | +- DICT_LENGTH: not L['self'].autocast_arg                                  
+| +- GuardManager: source=L['inputs'], accessed_by=DictGetItemGuardAccessor(inputs)
+| | +- TYPE_MATCH: ___check_type_id(L['inputs'], 7625984)                      
+| | +- LENGTH_CHECK: len(L['inputs']) == 1                                       
+| +- GuardManager: source=G, accessed_by=GlobalsGuardAccessor
+| | +- GuardManager: source=G['__builtins_dict___1'], accessed_by=DictGetItemGuardAccessor(__builtins_dict___1)
+| | | +- GuardManager: source=G['__builtins_dict___1']['dict'], accessed_by=DictGetItemGuardAccessor(dict)
+| | | | +- ID_MATCH: ___check_obj_id(G['__builtins_dict___1']['dict'], 7646656)  
+| | | +- GuardManager: source=G['__builtins_dict___1']['isinstance'], accessed_by=DictGetItemGuardAccessor(isinstance)
+| | | | +- ID_MATCH: ___check_obj_id(G['__builtins_dict___1']['isinstance'], 140633434656976)

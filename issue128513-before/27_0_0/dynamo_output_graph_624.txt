@@ -1,0 +1,13 @@
+class GraphModule(torch.nn.Module):
+    def forward(self, L_stack0_last_hidden_state: "f32[1, 832, 768][638976, 768, 1]cpu"):
+        l_stack0_last_hidden_state = L_stack0_last_hidden_state
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:2151 in torch_dynamo_resume_in_forward_at_2133, code: pooler_output = self.activation(self.pooler(sequence_output[:, 0, :])) if (self.pooler is not None) else None
+        getitem: "f32[1, 768][638976, 1]cpu" = l_stack0_last_hidden_state[(slice(None, None, None), 0, slice(None, None, None))]
+        l__self___pooler: "bf16[1, 768][768, 1]cpu" = self.L__self___pooler(getitem);  getitem = None
+        pooler_output: "bf16[1, 768][768, 1]cpu" = self.L__self___activation(l__self___pooler);  l__self___pooler = None
+        
+        # File: /localdisk/leslie/miniconda/envs/pytorch_community/lib/python3.10/site-packages/transformers/models/big_bird/modeling_big_bird.py:2156 in torch_dynamo_resume_in_forward_at_2133, code: sequence_output = sequence_output[:, :-padding_len]
+        sequence_output: "f32[1, 819, 768][638976, 768, 1]cpu" = l_stack0_last_hidden_state[(slice(None, None, None), slice(None, -13, None))];  l_stack0_last_hidden_state = None
+        return (sequence_output, pooler_output)
+        
